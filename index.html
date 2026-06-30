@@ -106,6 +106,15 @@
     border: 1px solid black; /* Creates the frame around cells */
     text-align: left;        /* Aligns all cell items to the left */
     padding: 8px;           /* Adds readable space inside the frame */
+
+ }
+            th {
+    background-color: #f2f2f2; /* Light grey background for header cells */
+  }
+
+  /* Custom class to change a single cell's background */
+  .highlight-cell {
+    background-color: #ffeb3b; /* Bright yellow background */
   }
 </style>
 <table style="margin-left: auto; margin-right: auto;">
@@ -113,12 +122,12 @@
     <th>Link</th><th>Comment</th>
      </tr>
     <tr>
-        <td><a href="https://ubpdqn.github.io/">ubpdqn.github.io</a></td>
-        <td>Original Github website</td>
+        <td class="highlight-cell"><a href="https://ubpdqn.github.io/">ubpdqn.github.io</a></td>
+        <td class="highlight-cell">Original Github website</td>
     </tr>
      <tr>
-        <td><a href="https://rpubs.com/atomofjustice/">RPUBS</a></td>
-        <td>RPUBS prior statistical explorations</td>
+        <td class="highlight-cell"><a href="https://rpubs.com/atomofjustice/">RPUBS</a></td>
+        <td class="highlight-cell">RPUBS prior statistical explorations</td>
     </tr>
 </table>
 
