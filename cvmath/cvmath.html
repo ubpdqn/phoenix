@@ -1,0 +1,1180 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="utf-8" />
+
+		<title>reveal.js - Math Plugin</title>
+
+		<meta
+			name="viewport"
+			content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+		/>
+
+		<link rel="stylesheet" href="../dist/reveal.css" />
+		<link rel="stylesheet" href="../dist/theme/moon.css" id="theme" />
+	</head>
+
+	<body>
+
+
+
+
+
+		<div class="reveal">
+			<!-- prettier-ignore -->
+			<div class="slides">
+
+				<section data-auto-animate>
+					<img src="heart.gif">
+					<h3 style="color: gold;">Cardiology Education Session</h3>
+          <p>Mark Dooris</p>
+				</section>
+        <section>
+          <h3 style="color:gold;">Aims</h3>
+          <ul>
+              <li class="fragment">
+                Deep dive into something we talk about everyday at work
+              </li>
+              <li class="fragment">
+               Advocate that mathematics is just a special (precise) language
+               <ul>
+                <li class="fragment"> revisiting the agony and ectasy of high school</li>
+               </ul>
+              </li>
+              <li class="fragment">
+                Let you experience <span style="color:beige;">death by</span> a presentation application other the Microsoft PowerPoint
+                <ul>
+                <li class="fragment"> in fact, <span style="color:red;">Open Source</span></li>
+               </ul>
+              </li>
+              <li class="fragment">
+                Take a tortuous mind-numbing path from one mundane thing and ending at another
+                <ul>
+                <li class="fragment"> <span style="color:beige;">Don't blame me. You came.</span></li>
+                 <li class="fragment">
+                <span style="color:beige;">I've locked the doors </span></li>
+               </ul>
+              </li>
+          </ul>
+          </section>
+          <section data-auto-animate>
+          <figure class="fragment">
+            <img src="hal.webp">
+          </figure>
+          <audio  data-autoplay src="lookdave.mp3"></audio>
+        </section>
+				<section data-auto-animate>
+				<h1 >Pressure</h1>			
+				</section>
+
+				<section data-auto-animate>
+					 <audio  data-autoplay src="cps.mp3"></audio>
+					<table>
+            <tr>
+              <td class="fragment" style="color:red;font-size: 100px ;">Blood</td>
+              <td class="fragment" style="color:red;font-size: 100px ;">Pressure</td>
+            </tr>
+          </table>
+					
+				</section>
+
+				<section data-auto-animate >
+				<table>
+				<tr class="fragment">	
+					<td>
+				<img src="ansph.jpg" width="200">
+				</td>
+				<td> Clinic</td>
+				</tr>
+				<tr class="fragment">
+					<td>
+				<img src="cl.webp" width="200">
+				</td>
+				<td>Cath Lab</td>
+				</tr>
+				<tr class="fragment">
+					<td>
+				<img src="echo.webp" width="200">
+				</td>
+				<td>Echo Lab</td>
+				</tr>
+				</table>
+				</section>
+				<section data-auto-animate>
+					<table>
+						<tr class="fragment">
+					<td class="fragment">
+					<img  src="ansph.jpg" width="200">
+				    </td>
+				    <td class="fragment">
+					<img src="asz01.png" width="200">
+					</td>
+					<td class="fragment">
+					<img  src="asz02.png" width="200">
+					</td>
+					<tr>
+					<td><h2 class="fragment">Units</h2></td>
+					<td class="fragment"> mm Hg</td>
+					<td class="fragment">cm H$_2$O</td>
+					</tr>
+					</table>
+					<p class="fragment" style="font-size: 75px;color:crimson">Pascal (Pa = N $\cdot$ m$^{-2}$)</p>
+				</section>
+				<section data-auto-animate>
+          <p class="fragment" style="color:gold">Why Length for Pressure?</p>
+          <table>
+					<tr>
+						<td class="fragment">
+							<img src="hales.jpg" width="250" height ="250">
+						</td>
+						<td class="fragment">
+							<img src="merc.jpg" width="250" height ="250">
+						</td>
+						<td class="fragment">
+							<img src="ansph.jpg" width="250" height ="250">
+						</td>
+						<td class="fragment">
+							<img src="nibp.jpg" width="250" height ="250">
+						</td>
+								
+						</tr>
+				</table>
+				<p class="fragment">
+					\[ P = \rho g h \]
+				</p>
+
+				</section>
+
+				<section data-auto-animate>
+                <table>
+					<tr>
+						<td>
+							<img src="hales.jpg" width="250" height ="250">
+						</td>
+						<td>
+							<img src="merc.jpg" width="250" height ="250">
+						</td>
+						<td>
+							<img src="ansph.jpg" width="250" height ="250">
+						</td>
+						<td>
+							<img src="nibp.jpg" width="250" height ="250">
+						</td>
+								
+						</tr>
+				</table>
+				<p>
+					\[ P = \rho g \color{red}{h} \]
+				</p>
+
+				</section>
+				<section>
+					<p class="fragment"> 
+						\[\ P_\text{atmosphere}= 1.01325 \times 10^5 \;\text{Pa}\]  
+					</p>
+					<p class="fragment">
+						\[h_\text{mercury}=\frac{1.01325 \times 10^5\; \text{Pa}}{9.81\; \text{m/s$^2$}\times 1.36 \times 10^4\;\text{kg}\cdot\text{m}^{-3}}\approx 0.76 \;\text{m}=760\; \text{mm}\]
+					</p>
+					<p class="fragment">
+						\[h_\text{water}=\frac{1.01325 \times 10^5 \;\text{Pa}}{9.81 \;\text{m/s$^2$}\times 1\times 10^3\;\text{kg}\cdot\text{m}^{-3}}\approx 10.3 \;\text{m}\]
+					</p>
+</section>
+<section>
+					<p class="fragment">
+						<img src="comparators.png" width="600">
+					</p>
+				</section>
+
+				<!-- Slide 2: Cropped and Zoomed Image -->
+				<section>
+					<p class="fragment">
+						<img src="bpm01.png" width="500">
+					</p>
+					<p class="fragment">
+						<img src="bpm02.png" width="500">
+					</p>
+				</section>
+
+<section>
+  <video data-autoplay src="ancrop.mp4">
+
+  </video>
+</section>
+
+				
+<section>		
+<h3 style="color: gold;">Office BP</h3>
+
+  <!-- ═══════════════ SVG DIAGRAM ═══════════════ -->
+  <div class="diagram-wrap" style="font-size: 16px;">
+    <svg class="main-diagram" viewBox="0 0 1040 620" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Hatching for metal cross-sections -->
+        <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#8a6d2e" stroke-width="0.8" opacity="0.5"/>
+        </pattern>
+        <pattern id="hatch2" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+          <line x1="0" y1="0" x2="0" y2="5" stroke="#4a6070" stroke-width="0.7" opacity="0.4"/>
+        </pattern>
+        <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0,8 3,0 6" fill="#b94a2c"/>
+        </marker>
+        <marker id="arr-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0,8 3,0 6" fill="#2c5f8a"/>
+        </marker>
+        <marker id="arr-dim" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <polygon points="0 0,7 2.5,0 5" fill="#7a6a50"/>
+        </marker>
+        <marker id="arr-steel" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <polygon points="0 0,7 2.5,0 5" fill="#4a6070"/>
+        </marker>
+      </defs>
+
+      <!-- ─── BACKGROUND SECTIONS ─── -->
+      <!-- Cuff zone -->
+      <rect x="10" y="10" width="185" height="600" rx="3" fill="#e8dfc5" stroke="#8a6d2e" stroke-width="1"/>
+      <text x="102" y="32" text-anchor="middle" class="svg-title" font-size="12" fill="#8a6d2e">① CUFF</text>
+
+      <!-- Capsule zone -->
+      <rect x="205" y="10" width="210" height="600" rx="3" fill="#e5dbc0" stroke="#8a6d2e" stroke-width="1"/>
+      <text x="310" y="32" text-anchor="middle" class="svg-title" font-size="12" fill="#8a6d2e">② ANEROID CAPSULE</text>
+
+      <!-- Linkage zone -->
+      <rect x="425" y="10" width="200" height="600" rx="3" fill="#dfd5ba" stroke="#8a6d2e" stroke-width="1"/>
+      <text x="525" y="32" text-anchor="middle" class="svg-title" font-size="12" fill="#8a6d2e">③ LEVER LINKAGE</text>
+
+      <!-- Gear zone -->
+      <rect x="635" y="10" width="185" height="600" rx="3" fill="#d8cebc" stroke="#8a6d2e" stroke-width="1"/>
+      <text x="727" y="32" text-anchor="middle" class="svg-title" font-size="12" fill="#8a6d2e">④ RACK &amp; PINION</text>
+
+      <!-- Dial zone -->
+      <rect x="830" y="10" width="200" height="600" rx="3" fill="#d2c8b0" stroke="#8a6d2e" stroke-width="1"/>
+      <text x="930" y="32" text-anchor="middle" class="svg-title" font-size="12" fill="#8a6d2e">⑤ GAUGE DIAL</text>
+
+      <!-- ─────────────────────────────────────────────
+           ① CUFF
+      ───────────────────────────────────────────── -->
+      <!-- Arm cross-section -->
+      <ellipse cx="102" cy="200" rx="55" ry="70" fill="#d4a57a" stroke="#a07050" stroke-width="1.5"/>
+      <!-- Artery inside -->
+      <ellipse cx="102" cy="200" rx="12" ry="16" fill="#c0392b" opacity="0.85" stroke="#8a0000" stroke-width="1"/>
+      <text x="102" y="204" text-anchor="middle" class="svg-dim" fill="#f5f0e8" font-size="8">artery</text>
+      <!-- Cuff wrap -->
+      <rect x="48" y="138" width="107" height="25" rx="4" fill="url(#hatch2)" stroke="#4a6070" stroke-width="1.5"/>
+      <rect x="48" y="232" width="107" height="25" rx="4" fill="url(#hatch2)" stroke="#4a6070" stroke-width="1.5"/>
+      <!-- Pressure arrow inward -->
+      <line x1="50" y1="195" x2="70" y2="195" stroke="#b94a2c" stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="154" y1="195" x2="134" y2="195" stroke="#b94a2c" stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="102" y1="142" x2="102" y2="162" stroke="#b94a2c" stroke-width="2" marker-end="url(#arr)"/>
+
+      <!-- Equation box: P = ρgh -->
+      <rect x="30" y="310" width="146" height="80" rx="2" fill="#f5efe0" stroke="#b94a2c" stroke-width="1"/>
+      <text x="103" y="327" text-anchor="middle" class="svg-eq" font-weight="600" fill="#b94a2c">Pressure Applied</text>
+      <text x="103" y="346" text-anchor="middle" class="svg-eq">P [mmHg → Pa]</text>
+      <text x="103" y="362" text-anchor="middle" class="svg-eq">1 mmHg = ρ·g·h</text>
+      <text x="103" y="378" text-anchor="middle" class="svg-eq">= 133.3 Pa</text>
+
+      <text x="103" y="430" text-anchor="middle" class="svg-dim">ρ_Hg = 13600 kg/m³</text>
+      <text x="103" y="444" text-anchor="middle" class="svg-dim">g = 9.807 m/s²</text>
+
+      <!-- Tube from cuff to capsule -->
+      <path d="M193 200 Q200 200 205 200" stroke="#4a6070" stroke-width="4" fill="none"/>
+      <text x="196" y="215" class="svg-dim" text-anchor="middle">tube</text>
+
+      <!-- ─────────────────────────────────────────────
+           ② ANEROID CAPSULE
+      ───────────────────────────────────────────── -->
+      <!-- Capsule body (corrugated) -->
+      <g transform="translate(310,190)">
+        <!-- Outer envelope -->
+        <ellipse cx="0" cy="0" rx="58" ry="42" fill="#c8b88a" stroke="#8a6d2e" stroke-width="2"/>
+        <!-- Corrugations (concentric arcs) -->
+        <ellipse cx="0" cy="0" rx="48" ry="34" fill="none" stroke="#8a6d2e" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <ellipse cx="0" cy="0" rx="38" ry="26" fill="none" stroke="#8a6d2e" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <ellipse cx="0" cy="0" rx="28" ry="18" fill="none" stroke="#8a6d2e" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <ellipse cx="0" cy="0" rx="17" ry="10" fill="#d4c494" stroke="#8a6d2e" stroke-width="1"/>
+        <!-- Sealed left wall -->
+        <rect x="-62" y="-10" width="8" height="20" fill="url(#hatch)" stroke="#8a6d2e" stroke-width="1"/>
+        <!-- Output pin right -->
+        <line x1="58" y1="0" x2="78" y2="0" stroke="#4a6070" stroke-width="3"/>
+        <circle cx="78" cy="0" r="4" fill="#4a6070"/>
+      </g>
+
+      <!-- Pressure input arrow into capsule -->
+      <line x1="215" y1="190" x2="245" y2="190" stroke="#b94a2c" stroke-width="2" marker-end="url(#arr)"/>
+      <text x="228" y="183" text-anchor="middle" class="svg-dim">P</text>
+
+      <!-- δ deflection arrow -->
+      <line x1="370" y1="175" x2="395" y2="175" stroke="#2c5f8a" stroke-width="1.5" marker-end="url(#arr-blue)" stroke-dasharray="4,2"/>
+      <text x="382" y="168" text-anchor="middle" class="svg-eq" fill="#2c5f8a" font-size="9">δ</text>
+
+      <!-- Equation box -->
+      <rect x="215" y="290" width="186" height="110" rx="2" fill="#f5efe0" stroke="#2c5f8a" stroke-width="1"/>
+      <text x="308" y="308" text-anchor="middle" class="svg-eq" font-weight="600" fill="#2c5f8a">Capsule Deflection</text>
+      <text x="308" y="330" text-anchor="middle" class="svg-eq">δ = P·A_eff / k</text>
+      <line x1="230" y1="340" x2="386" y2="340" stroke="#2c5f8a" stroke-width="0.5"/>
+      <text x="308" y="356" text-anchor="middle" class="svg-dim">A_eff = effective area</text>
+      <text x="308" y="370" text-anchor="middle" class="svg-dim">k = capsule stiffness</text>
+      <text x="308" y="386" text-anchor="middle" class="svg-eq" font-size="9" fill="#4a6070">k = E·t³ / R²(1−ν²) · C</text>
+
+      <!-- Stiffness labels -->
+      <text x="308" y="430" text-anchor="middle" class="svg-dim">E = Young's modulus</text>
+      <text x="308" y="444" text-anchor="middle" class="svg-dim">t = wall thickness</text>
+      <text x="308" y="458" text-anchor="middle" class="svg-dim">ν = Poisson's ratio</text>
+
+      <!-- ─────────────────────────────────────────────
+           ③ LEVER LINKAGE
+      ───────────────────────────────────────────── -->
+      <!-- Pivot point -->
+      <circle cx="460" cy="310" r="6" fill="#8a6d2e" stroke="#4a2e00" stroke-width="1.5"/>
+      <text x="460" y="328" text-anchor="middle" class="svg-dim">pivot (a)</text>
+
+      <!-- Lever arm -->
+      <line x1="390" y1="190" x2="550" y2="310" stroke="#4a6070" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- Dimension: a (short end) -->
+      <line x1="390" y1="195" x2="455" y2="305" stroke="#b94a2c" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+      <text x="408" y="255" class="svg-dim" fill="#b94a2c">a</text>
+
+      <!-- Dimension: L₁ (long end) -->
+      <line x1="465" y1="315" x2="545" y2="305" stroke="#2c5f8a" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="510" y="298" class="svg-dim" fill="#2c5f8a">L₁</text>
+
+      <!-- Output arc Δs -->
+      <path d="M555 310 Q580 250 575 190" stroke="#2c5f8a" stroke-width="1.5" fill="none" stroke-dasharray="4,2" marker-end="url(#arr-blue)"/>
+      <text x="590" y="250" class="svg-eq" fill="#2c5f8a" font-size="9">Δs</text>
+
+      <!-- Equation box -->
+      <rect x="428" y="380" width="185" height="90" rx="2" fill="#f5efe0" stroke="#b94a2c" stroke-width="1"/>
+      <text x="520" y="398" text-anchor="middle" class="svg-eq" font-weight="600" fill="#b94a2c">Lever Amplification</text>
+      <text x="520" y="420" text-anchor="middle" class="svg-eq">Δs = δ · (L₁ / a)</text>
+      <line x1="440" y1="430" x2="600" y2="430" stroke="#b94a2c" stroke-width="0.5"/>
+      <text x="520" y="448" text-anchor="middle" class="svg-dim">M = L₁/a  (mech. advantage)</text>
+      <text x="520" y="462" text-anchor="middle" class="svg-dim">typical M ≈ 5–15×</text>
+
+      <!-- ─────────────────────────────────────────────
+           ④ RACK & PINION
+      ───────────────────────────────────────────── -->
+      <!-- Rack (toothed bar) -->
+      <rect x="645" y="160" width="20" height="130" rx="2" fill="url(#hatch)" stroke="#4a6070" stroke-width="1.5"/>
+      <!-- Rack teeth -->
+      <g fill="#4a6070">
+        <rect x="665" y="168" width="7" height="5" rx="1"/>
+        <rect x="665" y="180" width="7" height="5" rx="1"/>
+        <rect x="665" y="192" width="7" height="5" rx="1"/>
+        <rect x="665" y="204" width="7" height="5" rx="1"/>
+        <rect x="665" y="216" width="7" height="5" rx="1"/>
+        <rect x="665" y="228" width="7" height="5" rx="1"/>
+        <rect x="665" y="240" width="7" height="5" rx="1"/>
+        <rect x="665" y="252" width="7" height="5" rx="1"/>
+        <rect x="665" y="264" width="7" height="5" rx="1"/>
+        <rect x="665" y="276" width="7" height="5" rx="1"/>
+      </g>
+
+      <!-- Pinion gear -->
+      <circle cx="727" cy="225" r="30" fill="#c8b88a" stroke="#8a6d2e" stroke-width="2"/>
+      <circle cx="727" cy="225" r="3" fill="#4a6070"/>
+      <!-- Gear teeth on pinion -->
+      <g fill="none" stroke="#8a6d2e" stroke-width="1.2">
+        <circle cx="727" cy="225" r="36" stroke-dasharray="8,6"/>
+      </g>
+      <!-- Pinion label -->
+      <text x="727" y="222" text-anchor="middle" class="svg-dim" fill="#4a2e00">r_p</text>
+
+      <!-- Radius arrow -->
+      <line x1="727" y1="225" x2="752" y2="205" stroke="#b94a2c" stroke-width="1.2" marker-end="url(#arr)"/>
+      <text x="748" y="198" class="svg-dim" fill="#b94a2c">r_p</text>
+
+      <!-- Rotation arrow -->
+      <path d="M727 187 A38 38 0 0 1 765 225" stroke="#2c5f8a" fill="none" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+      <text x="770" y="200" class="svg-eq" fill="#2c5f8a" font-size="9">Δθ</text>
+
+      <!-- Needle shaft to dial -->
+      <line x1="757" y1="225" x2="830" y2="225" stroke="#4a6070" stroke-width="2" stroke-dasharray="4,2"/>
+
+      <!-- Equation box -->
+      <rect x="640" y="360" width="175" height="100" rx="2" fill="#f5efe0" stroke="#8a6d2e" stroke-width="1"/>
+      <text x="727" y="378" text-anchor="middle" class="svg-eq" font-weight="600" fill="#8a6d2e">Rack → Pinion</text>
+      <text x="727" y="398" text-anchor="middle" class="svg-eq">Δθ = Δs / r_p</text>
+      <line x1="652" y1="408" x2="802" y2="408" stroke="#8a6d2e" stroke-width="0.5"/>
+      <text x="727" y="424" text-anchor="middle" class="svg-dim">Combined:</text>
+      <text x="727" y="440" text-anchor="middle" class="svg-eq" font-size="9">θ = P·A_eff·L₁ / (k·a·r_p)</text>
+
+      <!-- ─────────────────────────────────────────────
+           ⑤ GAUGE DIAL
+      ───────────────────────────────────────────── -->
+      <!-- Dial face -->
+      <circle cx="930" cy="220" r="80" fill="#f0e8d0" stroke="#8a6d2e" stroke-width="3"/>
+      <circle cx="930" cy="220" r="75" fill="none" stroke="#c8b88a" stroke-width="1"/>
+
+      <!-- Tick marks and numbers: 0 to 300 mmHg, 270° sweep (from ~225° to -45°) -->
+      <!-- Major ticks at 0,50,100,150,200,250,300 -->
+      <g transform="translate(930,220)">
+        <!-- Arc scale: 0 mmHg at 225° (bottom-left), 300 mmHg at -45° (bottom-right), 270° sweep -->
+        <!-- Tick at 0 mmHg (225°) -->
+        <g transform="rotate(225)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="52" y="4" text-anchor="middle" class="svg-dim" transform="rotate(-225,52,0)" font-size="9">0</text>
+        </g>
+        <!-- Tick at 50 mmHg (225+45=270°) -->
+        <g transform="rotate(270)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="52" y="4" text-anchor="middle" class="svg-dim" transform="rotate(-270,52,0)" font-size="9">50</text>
+        </g>
+        <!-- Tick at 100 mmHg (315°) -->
+        <g transform="rotate(315)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="52" y="4" text-anchor="middle" class="svg-dim" transform="rotate(-315,52,0)" font-size="9">100</text>
+        </g>
+        <!-- Tick at 150 mmHg (360°/0°) -->
+        <g transform="rotate(0)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="54" y="4" text-anchor="middle" class="svg-dim" transform="rotate(0,54,0)" font-size="9">150</text>
+        </g>
+        <!-- Tick at 200 mmHg (45°) -->
+        <g transform="rotate(45)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="52" y="4" text-anchor="middle" class="svg-dim" transform="rotate(-45,52,0)" font-size="9">200</text>
+        </g>
+        <!-- Tick at 250 mmHg (90°) -->
+        <g transform="rotate(90)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="52" y="4" text-anchor="middle" class="svg-dim" transform="rotate(-90,52,0)" font-size="9">250</text>
+        </g>
+        <!-- Tick at 300 mmHg (135°) -->
+        <g transform="rotate(135)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="52" y="4" text-anchor="middle" class="svg-dim" transform="rotate(-135,52,0)" font-size="9">300</text>
+        </g>
+
+        <!-- Minor ticks every 10 mmHg (9° each) -->
+        <g stroke="#1a1209" stroke-width="0.8">
+          <!-- Between 0-50 (225 to 270°) -->
+          <g transform="rotate(234)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(243)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(252)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(261)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(279)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(288)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(297)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(306)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(324)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(333)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(342)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(351)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(9)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(18)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(27)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(36)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(54)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(63)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(72)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(81)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(99)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(108)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(117)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(126)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+        </g>
+
+        <!-- Scale arc -->
+        <path d="M-72,0 A72,72 0 1,1 50.91,50.91" fill="none" stroke="#c8b88a" stroke-width="1" stroke-dasharray="2,1" transform="rotate(225)"/>
+
+        <!-- Needle pointing to ~120 mmHg systolic: 225 + (120/300)*270 = 225+108 = 333° -->
+        <g transform="rotate(333)">
+          <polygon points="0,-4 0,4 58,0" fill="#c0392b" opacity="0.9"/>
+          <polygon points="0,-3 0,3 -18,0" fill="#4a2e00" opacity="0.7"/>
+        </g>
+
+        <!-- Centre cap -->
+        <circle cx="0" cy="0" r="5" fill="#4a6070"/>
+
+        <!-- mmHg label -->
+        <text x="0" y="45" text-anchor="middle" class="svg-dim" font-size="10" fill="#4a2e00">mmHg</text>
+      </g>
+
+      <!-- Systolic/diastolic annotation -->
+      <line x1="965" y1="155" x2="1010" y2="120" stroke="#c0392b" stroke-width="1" stroke-dasharray="3,2"/>
+      <rect x="870" y="100" width="160" height="50" rx="2" fill="#f5efe0" stroke="#c0392b" stroke-width="1"/>
+      <text x="950" y="118" text-anchor="middle" class="svg-eq" fill="#c0392b" font-weight="600">Systolic: 120 mmHg</text>
+      <text x="950" y="133" text-anchor="middle" class="svg-dim">needle shown at reading</text>
+      <text x="950" y="146" text-anchor="middle" class="svg-dim">θ = 0.9° per mmHg</text>
+
+      <!-- Gauge equation box -->
+      <rect x="845" y="340" width="175" height="120" rx="2" fill="#f5efe0" stroke="#c0392b" stroke-width="1"/>
+      <text x="932" y="358" text-anchor="middle" class="svg-eq" font-weight="600" fill="#c0392b">Dial Calibration</text>
+      <text x="932" y="376" text-anchor="middle" class="svg-eq">θ(P) = (3π/2)·P/P_max</text>
+      <line x1="857" y1="385" x2="1007" y2="385" stroke="#c0392b" stroke-width="0.5"/>
+      <text x="932" y="401" text-anchor="middle" class="svg-dim">span = 270° = 3π/2 rad</text>
+      <text x="932" y="415" text-anchor="middle" class="svg-dim">P_max = 300 mmHg</text>
+      <text x="932" y="429" text-anchor="middle" class="svg-dim">S = π/200 rad/mmHg</text>
+      <text x="932" y="443" text-anchor="middle" class="svg-dim">  ≈ 0.9°/mmHg</text>
+
+      <!-- ─── MASTER SENSITIVITY EQUATION ─── -->
+      <rect x="215" y="530" width="610" height="60" rx="3" fill="#1a1209" stroke="#8a6d2e" stroke-width="1.5"/>
+      <text x="520" y="552" text-anchor="middle" class="svg-title" font-size="13" fill="#f5efe0">Master Transfer Function</text>
+      <text x="520" y="578" text-anchor="middle" class="svg-eq" font-size="11" fill="#c8b88a">θ = P · A_eff · L₁ / (k · a · r_p)     →     S = A_eff · L₁ / (k · a · r_p)  [rad/Pa]</text>
+
+      <!-- Flow arrows between zones -->
+      <line x1="196" y1="190" x2="210" y2="190" stroke="#b94a2c" stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="393" y1="190" x2="425" y2="190" stroke="#2c5f8a" stroke-width="2" marker-end="url(#arr-blue)"/>
+      <line x1="622" y1="190" x2="640" y2="190" stroke="#4a6070" stroke-width="2" marker-end="url(#arr-steel)"/>
+      <line x1="757" y1="225" x2="845" y2="225" stroke="#4a6070" stroke-width="2" marker-end="url(#arr-steel)"/>
+    </svg>
+  </div>
+</section>
+
+
+<section>
+  <h3 style="color: gold;">Office BP</h3>
+	<table>
+		<tr>
+			<td class="fragment">
+				<img src="bptf1.svg", width="400">
+			</td>
+			<td class="fragment">
+				<img src="bptf2.svg", width="400">		
+			</td>
+			<td class="fragment">
+				<img src="bptf3.svg", width="400">
+			</td>
+		</tr>
+		<tr></tr>
+			<td class="fragment">
+				<img src="bptf4.svg", width="400">
+			</td>
+			<td class="fragment">
+				<img src="bptf5.svg", width="400">
+			</td>
+			<td class="fragment">
+				<img src="bptf6.svg", width="400">
+			</td>
+		</tr>
+	</table>
+	
+</section>
+<section>
+  <h3 style="color: gold;">
+    Office BP
+  </h3>
+	<section>
+		<img src="bptf1.svg" width="600">
+	</section>
+	<section>
+		<img src="bptf2.svg" width="600">
+	</section>
+	<section>
+		<img src="bptf3.svg" width="600">
+	</section>
+	<section>
+		<img src="bptf4.svg" width="600">
+	</section>
+	<section>
+		<img src="bptf5.svg" width="600">
+	</section>
+	<section>
+		<img src="bptf6.svg" width="600">
+	</section>
+</section>
+
+<section>
+      <video src="nibp.mov" width="400" data-autoplay>Selef</video>
+    </section>
+
+
+
+
+
+<section>
+  <h3 style="color: gold;">
+ NIBP
+</h3>
+  <figure style="color: gold;">
+  <caption> Arterial States During Deflation</caption>
+    <img src="nibp01.svg" width="600">
+  </figure>
+</section>
+<section>
+  <h3 style="color: gold;">NIBP</h3>
+  <section>
+    <h3 style="color: gold;">Wall Mechanics</h3>
+  <figure style="color: gold;">
+    <caption>Laplace's Law</caption>
+    <img src="nibp02.svg" width="600">
+  </figure>
+  </section>
+  <section>
+  <figure style="color: gold;">
+    <caption >Arterial Compliance</caption>
+    <img src="nibp03.svg" width="600">
+  </figure>
+  </section>
+  <section>
+   <figure style="color: gold;">
+    <caption >Pressure Transmission to Cuff</caption>
+    <img src="nibp04.svg" width="600">
+  </figure>
+  </section>
+  
+</section>
+<section>
+  <h3 style="color: gold;">NIBP</h3>
+  
+  <figure style="color: gold;">
+  <caption>Signal Morphology and Envelope</caption>
+    <img src="nibp05.svg" width="1000">
+  </figure>
+</section>
+
+<section>
+  <h3 style="color: gold;">
+    NIBP
+ </h3>
+  <figure style="color: gold;">
+  <caption> Transducer Chain</caption>
+    <img src="nibp06.svg" width="600">
+  </figure>
+</section>
+<section>
+  <h3 style="color: gold;">
+ NIBP
+</h3>
+ <section>
+  <h3 style="color: gold;">
+ MAP Estimation and Sources of Error</h3>
+  <figure style="color: gold;">
+    <caption>Mean Arterial Pressure (MAP)</caption>
+    <img src="nibp07.svg" width="1000">
+  </figure>
+  </section>
+   <section>
+    <h3 style="color: gold;">NIBP</h3>
+  <figure style="color: gold;">
+    <caption>Oscillometric MAP</caption>
+    <img src="nibp07.svg" width="1000">
+  </figure>
+  </section>
+   <section>
+  <figure style="color: gold;">
+    <caption>Pulse Pressure (PP)</caption>
+    <img src="nibp08.svg" width="1000">
+  </figure>
+  </section>
+   <section>
+  <figure style="color: gold;">
+    <caption>Pulse Pressure (PP)</caption>
+    <img src="nibp09.svg" width="1000">
+  </figure>
+  </section>
+   <section>
+  <figure style="color: gold;">
+    <caption>Sources of Error</caption>
+    <img src="nibp10.svg" width="1000">
+  </figure>
+  </section>
+  </section>
+ <section>
+ <h3 style="color: gold;">
+  NIBP</h3>
+  <figure style="color: gold">
+  <caption>Hydrostatic Correction</caption>
+    <img src="nibp11.svg" width="1000">
+  </figure>
+</section>
+</section>
+<section>
+      <video src="cl.mp4" width="400" data-autoplay>Selef</video>
+    </section>
+
+
+
+<section>
+  <h3 style="color: gold;">
+    Invasive Measurement of Pressure
+  </h3>
+  <figure style="color: gold;">
+    <caption>Overview</caption>
+    <img src="cl01.svg" width="1000">
+  </figure>
+</section>
+
+<section>
+  <h3 style="color: gold;">
+    Invasive Measurement of Pressure
+  </h3>
+  <figure style="color: gold;">
+    <caption>Wheatstone Bridge Example</caption>
+    <img src="cl02.svg" width="1000">
+  </figure>
+</section>
+
+<section>
+  <h3 style="color: gold;">
+    Invasive Measurement of Pressure
+  </h3 style="color: gold;">
+  <figure style="color: gold;">
+    <caption>Transducer</caption>
+    <img src="cl01.svg" width="1000">
+  </figure>
+</section>
+
+<section>
+  <h3 style="color: gold;">
+    Invasive Measurement of Pressure
+  </h3>
+  <figure style="color: gold;">
+    <caption>Summary</caption>
+    <img src="cl01.svg" width="1000">
+  </figure>
+</section>
+
+
+
+<section>
+      <video src="echo-cut.mp4" width="400" data-autoplay>Selef</video>
+    </section>
+
+<section>
+<h3 style="color: gold;">
+  Echo Lab
+</h3>
+
+<section>
+ 
+<figure class="fragment">
+  <img src="volel.svg" width="400">
+</figure>
+<p class="fragment">
+  \[ \frac{\partial}{\partial t}\int_V\; \rho\; dV =-\int_S \rho\; \vec{u}\cdot\vec{n}\;dS \]
+</p>
+</section>
+
+<section>
+<p class="fragment">
+  \[ \frac{\partial}{\partial t}\int_V\; \rho\; dV =-\int_S \rho\; \vec{u}\cdot\vec{n}\;dS \]
+</p>
+<p class="fragment">
+  \[ \int_V\; \frac{\partial \rho}{\partial t}\;+\nabla \cdot (\rho \vec{u})\;  dV =0\]
+</p>
+<p class="fragment">
+  \[\frac{\partial \rho}{\partial t}\;+\nabla \cdot (\rho \vec{u})\;=\;0\]
+</p>
+
+<p class="fragment">
+ \[ \frac{\partial \rho}{\partial t}\;+ \vec{u}\cdot\nabla\rho\; + \rho\nabla\cdot\vec{u}=0 \]
+</p>
+</section>
+<section>
+<p class="fragment">
+ \[ \overbrace{\frac{\partial \rho}{\partial t}\;+ \vec{u}\cdot\nabla\rho\;}^\text{material derivative} +\rho\nabla\cdot\vec{u}=0 \]
+ </p>
+<p class="fragment">
+  
+ \[ \frac{D \rho}{D t}\; +\rho\nabla\cdot\vec{u}=0 \]
+ </p>
+<p class="fragment">
+  Assuming incompressibility (constant density $\rho$)<br>
+ \[ \frac{D \rho}{D t}\;=0 \implies \nabla\cdot\vec{u}=0 \]
+ </p>
+</section>
+</section>
+<section>
+<h3 style="color: gold;">
+  Echo Lab
+</h3>
+<section>
+<figure>
+  <img src="shear.svg" width="300">
+</figure>
+<p class="fragment">
+  Shear stresses: $\sigma_{ij}$, force in direction normal: $F_i$<br>
+ \[\delta F_i= \frac{\partial \sigma_{ij}}{\partial x_j}\delta V\]
+</p>
+</section>
+<section>
+<p class="fragment">
+  \[ p =\sigma_{kk}/3 \iff \Sigma = -p \; I + \mathbb{S}\]
+</p>
+<p class="fragment">
+  \[ p =\sigma_{kk}/3 \iff \Sigma = -p\; I + \mathbb{S}\]
+  </p>
+  <p class="fragment">
+\[ \overbrace{-\nabla p \delta V+\nabla\cdot\mathbb{S}}^\text{force}\;=\overbrace{\rho \frac{D \vec{u}}{Dt}}^\text{mass $\times$ acceleration}\]
+</p>
+ <p class="fragment">
+\[\rho(\frac{\partial \vec{u}}{\partial t}+ \vec{u}\cdot\nabla\vec{u})\;= -\nabla p \delta V+\nabla\cdot\mathbb{S}\]
+</p>
+</section>
+<section>
+<p><br>Simplifying assumptions</p>
+<ul>
+  <li class="fragment">
+    balanced forces $\implies \sigma_{ij}=\sigma_{ji}$ 
+  </li>
+  <li class="fragment">
+    <span style="color:rgb(255, 0, 123)">Newtonian fluid</span>$\implies$ linear relation between stress and deformation
+    : $\tau =\mu\;\frac{\partial\vec{u}}{\partial x}$
+  </li>
+  <li class="fragment">
+    <span style="color:rgb(255, 0, 123)">Isotropic fluid</span> $\implies \sigma_{ij}=\mu(\frac{\partial u_i}{\partial x_j}+
+    \frac{\partial u_j}{\partial x_i})+\lambda \frac{\partial u_k}{\partial x_k}$
+  </li>
+  <li class="fragment">
+    <span style="color:rgb(255, 0, 123)">Incompressibe fluid</span> $\implies\newline \nabla\cdot \vec{u}=0 \implies
+    \frac{\partial u_k}{\partial x_k}=0 \newline\implies \sigma_{ij}=\mu(\frac{\partial u_i}{\partial x_j}+
+    \frac{\partial u_j}{\partial x_i})$
+  </li>
+</ul>
+<p class="fragment">
+  \[\color{green}{\frac{\partial \sigma_{ij}}{\partial x_j}=\mu \frac{\partial^2 \vec{u}}{\partial x_j^2}}\]
+</p>
+</section>
+<section data-auto-animate>
+  <p class="fragment">
+  \[ \rho(\frac{\partial \vec{u}}{\partial t}+ \vec{u}\cdot\nabla\vec{u})\;= -\nabla p+ \rho\; g \nabla h + \mu \nabla^2 \vec{u}\]
+  </p>
+</section>
+<section data-auto-animate>
+  <p class="fragment">
+    \[\color{red}{
+     \rho(\frac{\partial \vec{u}}{\partial t}+ \vec{u}\cdot\nabla\vec{u})\;= -\nabla p+ \rho\; g \nabla h + \mu \nabla^2 \vec{u} 
+    }\]
+  </p>
+</section>
+</section>
+<section>
+  <style>
+    /* Fullscreen black background */
+    body {
+        margin: 0;
+        background: black;
+        overflow: hidden;
+        color: white;
+        font-family: Arial, sans-serif;
+        text-align: center;
+    }
+
+    /* Flashing text animation */
+    .flashing-text {
+        font-size: 2em;
+        font-weight: bold;
+        animation: flash 2s infinite;
+        position: relative;
+        z-index: 2;
+        margin-top: 20vh;
+    }
+
+    @keyframes flash {
+        0%, 50%, 100% { opacity: 1; }
+        25%, 75% { opacity: 0; }
+    }
+
+    /* Canvas for fireworks */
+    canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+    }
+</style>
+</head>
+<body>
+
+<div class="flashing-text"><span style="color:gold" >Navier Stokes Equation</span></div>
+<p>
+  \[\color{red}{
+     \rho(\frac{\partial \vec{u}}{\partial t}+ \vec{u}\cdot\nabla\vec{u})\;= -\nabla p+ \rho\; g \nabla h + \mu \nabla^2 \vec{u} 
+    }\]
+</p>
+<img src="navier.svg" width="300">
+<canvas id="fireworks"></canvas>
+
+<script>
+/* Fireworks animation using HTML5 Canvas */
+const canvas = document.getElementById('fireworks');
+const ctx = canvas.getContext('2d');
+let particles = [];
+
+function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+}
+window.addEventListener('resize', resizeCanvas);
+resizeCanvas();
+
+function random(min, max) {
+    return Math.random() * (max - min) + min;
+}
+
+function createFirework(x, y) {
+    const colors = ['#ff0043', '#14fc56', '#1e90ff', '#ffff33', '#ff6600'];
+    const count = 50;
+    for (let i = 0; i < count; i++) {
+        particles.push({
+            x: x,
+            y: y,
+            angle: random(0, Math.PI * 2),
+            speed: random(2, 6),
+            radius: 2,
+            life: 100,
+            color: colors[Math.floor(Math.random() * colors.length)]
+        });
+    }
+}
+
+function updateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    particles.forEach((p, index) => {
+        p.x += Math.cos(p.angle) * p.speed;
+        p.y += Math.sin(p.angle) * p.speed;
+        p.speed *= 0.95; // slow down
+        p.life--;
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.fill();
+        if (p.life <= 0) particles.splice(index, 1);
+    });
+}
+
+function loop() {
+    updateParticles();
+    requestAnimationFrame(loop);
+}
+
+setInterval(() => {
+    createFirework(random(100, canvas.width - 100), random(100, canvas.height - 100));
+}, 800);
+
+loop();
+</script>
+</section>
+<section>
+<p class="fragment">
+  \[
+     \rho(\frac{\partial \vec{u}}{\partial t}+ \vec{u}\cdot\nabla\vec{u})\;= -\nabla p+ \rho\; g \nabla h + \mu \nabla^2 \vec{u} 
+    \]
+
+    
+</p>
+<p class="fragment">
+  \[
+     \rho(\frac{\partial \vec{u}}{\partial t}+ \vec{u}\cdot\nabla\vec{u})\;= -\nabla p+\cancelto{\text{ignore}} {\rho\; g \nabla h} 
+     + \cancelto{0}{\mu \nabla^2 \vec{u}}
+    \]
+
+</p>
+<p class="fragment">
+  \[
+     \rho(\frac{\partial \vec{u}}{\partial t}+ \vec{u}\cdot\nabla\vec{u})\;= -\nabla p
+     
+    \]
+
+</p>
+
+</section>
+
+<section>
+  <figure class="fragment">
+    <img src="bern.svg", width="200">
+  </figure>
+  <p class="fragment">
+  \[
+     \rho(\frac{\partial \vec{u}}{\partial t}+ \vec{u}\cdot\nabla\vec{u})\;= -\nabla p
+     \]
+  </p>
+  </section>
+  <section>
+  <p class="fragment">
+    Inviscid, no acceleration , incompressibility and  <span style="color:red">symmetries of pipe</span> (no radial or angular dependence)
+  </p>
+  <p class="fragment">
+\[\rho \; u \frac{du}{dr}=-\frac{dp}{dr}\;\iff\;\frac{d}{dr}(\frac{\rho u^2}{2}+p)=0 \]
+  </p>
+   <p class="fragment">
+\[  \overbrace{\frac{\rho u^2}{2}+ p= \text{constant}}^{\color{red}{\text{Bernoulli Equation}}} \]
+  </p>
+</section>
+
+<section>
+<p class="fragment">
+    
+      Balancing inertial and viscous forces:
+  </p>
+  <p class="fragment">
+\[ 2\pi r L\;\mu\;\frac{du}{dr}=\Delta p \;\pi r^2\]
+  </p>
+   <p class="fragment">
+    Solving the differential equation with<br> $u(0)=u_\text{center}$ and $u(R)=0$.
+\[  u(r)=\int^R_r  \frac{\Delta P}{2\mu L} \;ds\;=\;\frac{\Delta P (R^2-r^2)}{4 \mu L} \]
+  </p>
+</section>
+<section>
+  <figure class="fragment">
+    <img src="poise.svg" width="300">
+  </figure>
+  <p class="fragment">
+\[Q=\int_S \vec{u}\cdot\vec{n} \;dS =\int_0^R\int_0^{2\pi} \frac{\Delta P (R^2-r^2)}{4 \mu L}\; r dr d\theta=\frac{\pi\Delta P R^4}{8\mu L} \]
+  </p>
+</section>
+<section>
+  
+  <p class="fragment">
+\[\overbrace{Q\;=\;\frac{\pi\Delta P R^4}{8\mu L}}^\text{\color{red}{Poiseuille Hagen Equation}} \]
+  </p>
+  <p class ="fragment">
+Let $Z$ be resistance:<br>
+\[Z\;=\;\frac{\Delta P}{Q}\;=\; \frac{8\mu L}{\pi R^4}\]
+  </p>
+</section>
+<section>
+  <h3 class="fragment">
+    <span style="font-style: italic; color:chartreuse"> The Meaning of Life in the Echo Lab is 4. </span>
+  </h3>
+  <p class="fragment">
+    \[\rho_\text{blood}\approx 1.05 \times 10^3\; \text{kg}\cdot\text{m}^{-3}\]
+  </p>
+  <p class="fragment">
+    \[\Delta P =\frac{\rho\; \Delta v^2}{2}\]
+  </p>
+  </section>
+  <section>
+   <p class="fragment">
+    \[\Delta P \;=\;\frac{1.05 \times 10^3\Delta v^2}{2} \text{kg}\cdot \text{m}^{-3}\cdot \text{m}^2\cdot\text{s}^{-2}\;=\;
+    \frac{1.05 \times 10^3\Delta v^2}{2}\text{Pa}\]
+  </p>
+   <p class="fragment">
+    \[\Delta P \;=\;
+  \;\frac{1.05 \times 10^3\;\Delta v^2}{2} \frac{760 \;\text{mm Hg}}{ 10^5\; \text{Pa}}\times\text{Pa}\]
+  </p>
+   <p class="fragment">
+    \[\Delta P \;=\;
+    \frac{1.05 \times 10^3 \times 760\; \Delta v^2}{2\times 10^5}\;\text{mm Hg}\]
+  </p>
+
+   <p class="fragment">
+    \[\Delta P \approx 4 \;\Delta v^2\;\text{mm Hg}\]
+  </p>
+</section> 
+
+
+</section>
+<section data-auto-animate >
+  <audio autoplay src="lwr.mp3"></audio>
+  <p class="fragment">
+    \[\Delta P \approx \Large{\color{red}{4}}\;\; \Delta v^2\;\text{mm Hg}\]
+  </p>
+   <p class="fragment">
+    \[\Delta v^2= v_1^2 -v_2^2 \approx v_1^2,\;\because v_2 &lt;1 \implies v_2^2 \ll 1\]
+  </p>
+  <p class="fragment">
+\[\color{red}\Large{\Delta P= 4\; v^2}\]
+  </p>
+
+</section>
+<section>
+  <audio autoplay src="cham.mp3"></audio>
+  \[ \Huge{\color{green}{\Delta P = 4 \;\; v^2}}\]
+</section>
+
+<section>
+  <img src="iceberg.jpg" width="300">
+  <ul>
+    <li class="fragment"> pulsatile flow</li>
+    <li class="fragment"> turbulence</li>
+    <li class="fragment"> curved vessels</li>
+    <li class="fragment"> bifurcations</li>
+    <li class="fragment"> arterial pulse and reflected waves</li>
+    <li class="fragment"> ...</li>
+  
+  </ul>
+</section>
+<section>
+ <ul>
+    <li class="fragment"> Reveal.js was  used to make this presentation</li>
+    <li class="fragment">Instagram and TikTok were surprising sources of some of the videoclips</li>
+    <li class="fragment"> I typeset all the equations (excluding graphics) using MathJax</li>
+    <li class="fragment"> Claude AI by Anthropic was used for some diagrams (free version)</li>
+    <li class="fragment"> Approximately 1200 lines of html are in the source document</li>
+  
+  </ul>
+
+</section>
+<section>
+  <span style="color:blueviolet; font-size: 120px">Thank you for your attention</span>
+</section>
+
+
+ <section>
+  <p style="color:crimson; font-size:50px;">
+Self Reflection
+  </p>
+      <video src="mdmd-o.MP4" width="300" data-autoplay></video>
+    </section>
+				
+			</div>
+		</div>
+
+   
+
+		<script src="../dist/reveal.js"></script>
+		<script src="../dist/plugin/math.js"></script>
+		<script>
+			Reveal.initialize({
+				history: true,
+				transition: 'linear',
+				autoPlayMedia: true,
+				margin: 0.1,
+				width: 900,
+				height: 760,
+
+				// MathJax2 configuration (commented out)
+				/*
+				mathjax2: {
+					config: 'TeX-AMS_HTML-full',
+					TeX: {
+						Macros: {
+							R: '\\mathbb{R}',
+							set: ['\\left\\{#1 \\; ; \\; #2\\right\\}', 2],
+						},
+					},
+				},
+				*/
+
+				// MathJax4 configuration
+				mathjax4: {
+					tex: {
+						inlineMath: [['$', '$'], ['\\(', '\\)']],
+						displayMath: [['$$', '$$'], ['\\[', '\\]']],
+						macros: {
+							R: '\\mathbb{R}',
+							set: ['\\left\\{#1 \\; ; \\; #2\\right\\}', 2]
+						}
+					},
+					options: {
+						skipHtmlTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+					},
+					output: {
+						font: 'mathjax-stix2',
+						displayOverflow: 'linebreak',
+						linebreaks: {             // options for when overflow is linebreak
+							inline: true,              // true for browser-based breaking of inline equations
+							width: '100%',             // a fixed size or a percentage of the container width
+							lineleading: .2,           // the default lineleading in em units
+							LinebreakVisitor: null     // The LinebreakVisitor to use
+						}
+					}
+				},
+
+				// There are four typesetters available
+				// RevealMath.MathJax2 (default)
+				// RevealMath.MathJax3
+				// RevealMath.MathJax4
+				// RevealMath.KaTeX
+				//
+				// This example uses MathJax4 with macros support
+				// More info at https://revealjs.com/math/
+				plugins: [ RevealMath.MathJax4 ]
+			});
+		</script>
+	</body>
+</html>

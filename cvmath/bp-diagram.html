@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aneroid Sphygmomanometer — Mechanical Mathematics</title>
+<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English:ital@0;1&family=JetBrains+Mono:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:    #1a1209;
+    --paper:  #f5efe0;
+    --cream:  #ede3c8;
+    --rust:   #b94a2c;
+    --brass:  #8a6d2e;
+    --steel:  #4a6070;
+    --dim:    #7a6a50;
+    --red:    #c0392b;
+    --blue:   #2c5f8a;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    line-height: 1.5;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 40px 20px;
+  }
+
+  /* Aged paper texture overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image:
+      repeating-linear-gradient(0deg, transparent, transparent 28px, rgba(139,120,80,0.06) 28px, rgba(139,120,80,0.06) 29px),
+      repeating-linear-gradient(90deg, transparent, transparent 28px, rgba(139,120,80,0.04) 28px, rgba(139,120,80,0.04) 29px);
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  .page {
+    position: relative;
+    z-index: 1;
+    max-width: 1100px;
+    width: 100%;
+  }
+
+  header {
+    text-align: center;
+    margin-bottom: 40px;
+    border-bottom: 2px solid var(--brass);
+    padding-bottom: 20px;
+  }
+
+  header h1 {
+    font-family: 'IM Fell English', serif;
+    font-size: 2rem;
+    letter-spacing: 0.02em;
+    color: var(--ink);
+  }
+
+  header p {
+    color: var(--dim);
+    font-size: 11px;
+    margin-top: 6px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+  }
+
+  /* ── Main diagram canvas ── */
+  .diagram-wrap {
+    background: var(--cream);
+    border: 1.5px solid var(--brass);
+    border-radius: 2px;
+    padding: 30px;
+    box-shadow: 4px 4px 0 rgba(138,109,46,0.18), 8px 8px 0 rgba(138,109,46,0.08);
+    margin-bottom: 30px;
+  }
+
+  svg.main-diagram {
+    width: 100%;
+    height: auto;
+    display: block;
+    overflow: visible;
+  }
+
+  /* ── Equation panels ── */
+  .equations-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 16px;
+    margin-bottom: 30px;
+  }
+
+  .eq-card {
+    background: var(--cream);
+    border: 1px solid var(--brass);
+    border-left: 4px solid var(--rust);
+    padding: 16px 18px;
+    position: relative;
+  }
+
+  .eq-card .label {
+    font-family: 'IM Fell English', serif;
+    font-size: 0.85rem;
+    color: var(--rust);
+    margin-bottom: 8px;
+    letter-spacing: 0.04em;
+  }
+
+  .eq-card .eq {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 12px;
+    color: var(--ink);
+    line-height: 2;
+  }
+
+  .eq-card .eq .frac {
+    display: inline-flex;
+    flex-direction: column;
+    align-items: center;
+    vertical-align: middle;
+    margin: 0 3px;
+  }
+  .eq-card .eq .frac .num,
+  .eq-card .eq .frac .den {
+    padding: 0 3px;
+    line-height: 1.3;
+  }
+  .eq-card .eq .frac .bar {
+    width: 100%;
+    height: 1px;
+    background: var(--ink);
+  }
+
+  .eq-card .note {
+    font-size: 10px;
+    color: var(--dim);
+    margin-top: 8px;
+    font-style: italic;
+  }
+
+  /* ── Transfer chain ── */
+  .chain {
+    background: var(--cream);
+    border: 1px solid var(--brass);
+    padding: 20px 24px;
+    margin-bottom: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .chain-step {
+    text-align: center;
+    padding: 8px 12px;
+    background: var(--paper);
+    border: 1px solid var(--brass);
+    font-size: 11px;
+    min-width: 90px;
+  }
+
+  .chain-step .unit {
+    display: block;
+    font-size: 9px;
+    color: var(--dim);
+    margin-top: 2px;
+  }
+
+  .chain-arrow {
+    font-size: 18px;
+    color: var(--rust);
+    font-family: 'IM Fell English', serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    font-size: 10px;
+    color: var(--steel);
+  }
+
+  .chain-arrow .op {
+    font-size: 16px;
+    color: var(--rust);
+  }
+
+  footer {
+    text-align: center;
+    font-size: 10px;
+    color: var(--dim);
+    border-top: 1px solid var(--brass);
+    padding-top: 14px;
+    letter-spacing: 0.1em;
+  }
+
+  /* SVG styles */
+  .svg-label { font-family: 'JetBrains Mono', monospace; }
+  .svg-title { font-family: 'IM Fell English', serif; }
+  .svg-eq    { font-family: 'JetBrains Mono', monospace; font-size: 10px; fill: #1a1209; }
+  .svg-dim   { fill: #7a6a50; font-size: 9px; font-family: 'JetBrains Mono', monospace; }
+  .svg-rust  { fill: #b94a2c; }
+  .svg-steel { fill: #4a6070; }
+  .svg-brass { fill: #8a6d2e; }
+  .svg-blue  { fill: #2c5f8a; }
+</style>
+</head>
+<body>
+<div class="page">
+
+  <header>
+    <h1>Aneroid Sphygmomanometer — Mechanical Mathematics</h1>
+    <p>Pressure · Deformation · Amplification · Angular Displacement</p>
+  </header>
+
+  <!-- ═══════════════ SVG DIAGRAM ═══════════════ -->
+  <div class="diagram-wrap">
+    <svg class="main-diagram" viewBox="0 0 1040 620" xmlns="http://www.w3.org/2000/svg">
+      <defs>
+        <!-- Hatching for metal cross-sections -->
+        <pattern id="hatch" width="6" height="6" patternUnits="userSpaceOnUse" patternTransform="rotate(45)">
+          <line x1="0" y1="0" x2="0" y2="6" stroke="#8a6d2e" stroke-width="0.8" opacity="0.5"/>
+        </pattern>
+        <pattern id="hatch2" width="5" height="5" patternUnits="userSpaceOnUse" patternTransform="rotate(-45)">
+          <line x1="0" y1="0" x2="0" y2="5" stroke="#4a6070" stroke-width="0.7" opacity="0.4"/>
+        </pattern>
+        <marker id="arr" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0,8 3,0 6" fill="#b94a2c"/>
+        </marker>
+        <marker id="arr-blue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+          <polygon points="0 0,8 3,0 6" fill="#2c5f8a"/>
+        </marker>
+        <marker id="arr-dim" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <polygon points="0 0,7 2.5,0 5" fill="#7a6a50"/>
+        </marker>
+        <marker id="arr-steel" markerWidth="7" markerHeight="5" refX="7" refY="2.5" orient="auto">
+          <polygon points="0 0,7 2.5,0 5" fill="#4a6070"/>
+        </marker>
+      </defs>
+
+      <!-- ─── BACKGROUND SECTIONS ─── -->
+      <!-- Cuff zone -->
+      <rect x="10" y="10" width="185" height="600" rx="3" fill="#e8dfc5" stroke="#8a6d2e" stroke-width="1"/>
+      <text x="102" y="32" text-anchor="middle" class="svg-title" font-size="12" fill="#8a6d2e">① CUFF</text>
+
+      <!-- Capsule zone -->
+      <rect x="205" y="10" width="210" height="600" rx="3" fill="#e5dbc0" stroke="#8a6d2e" stroke-width="1"/>
+      <text x="310" y="32" text-anchor="middle" class="svg-title" font-size="12" fill="#8a6d2e">② ANEROID CAPSULE</text>
+
+      <!-- Linkage zone -->
+      <rect x="425" y="10" width="200" height="600" rx="3" fill="#dfd5ba" stroke="#8a6d2e" stroke-width="1"/>
+      <text x="525" y="32" text-anchor="middle" class="svg-title" font-size="12" fill="#8a6d2e">③ LEVER LINKAGE</text>
+
+      <!-- Gear zone -->
+      <rect x="635" y="10" width="185" height="600" rx="3" fill="#d8cebc" stroke="#8a6d2e" stroke-width="1"/>
+      <text x="727" y="32" text-anchor="middle" class="svg-title" font-size="12" fill="#8a6d2e">④ RACK &amp; PINION</text>
+
+      <!-- Dial zone -->
+      <rect x="830" y="10" width="200" height="600" rx="3" fill="#d2c8b0" stroke="#8a6d2e" stroke-width="1"/>
+      <text x="930" y="32" text-anchor="middle" class="svg-title" font-size="12" fill="#8a6d2e">⑤ GAUGE DIAL</text>
+
+      <!-- ─────────────────────────────────────────────
+           ① CUFF
+      ───────────────────────────────────────────── -->
+      <!-- Arm cross-section -->
+      <ellipse cx="102" cy="200" rx="55" ry="70" fill="#d4a57a" stroke="#a07050" stroke-width="1.5"/>
+      <!-- Artery inside -->
+      <ellipse cx="102" cy="200" rx="12" ry="16" fill="#c0392b" opacity="0.85" stroke="#8a0000" stroke-width="1"/>
+      <text x="102" y="204" text-anchor="middle" class="svg-dim" fill="#f5f0e8" font-size="8">artery</text>
+      <!-- Cuff wrap -->
+      <rect x="48" y="138" width="107" height="25" rx="4" fill="url(#hatch2)" stroke="#4a6070" stroke-width="1.5"/>
+      <rect x="48" y="232" width="107" height="25" rx="4" fill="url(#hatch2)" stroke="#4a6070" stroke-width="1.5"/>
+      <!-- Pressure arrow inward -->
+      <line x1="50" y1="195" x2="70" y2="195" stroke="#b94a2c" stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="154" y1="195" x2="134" y2="195" stroke="#b94a2c" stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="102" y1="142" x2="102" y2="162" stroke="#b94a2c" stroke-width="2" marker-end="url(#arr)"/>
+
+      <!-- Equation box: P = ρgh -->
+      <rect x="30" y="310" width="146" height="80" rx="2" fill="#f5efe0" stroke="#b94a2c" stroke-width="1"/>
+      <text x="103" y="327" text-anchor="middle" class="svg-eq" font-weight="600" fill="#b94a2c">Pressure Applied</text>
+      <text x="103" y="346" text-anchor="middle" class="svg-eq">P [mmHg → Pa]</text>
+      <text x="103" y="362" text-anchor="middle" class="svg-eq">1 mmHg = ρ·g·h</text>
+      <text x="103" y="378" text-anchor="middle" class="svg-eq">= 133.3 Pa</text>
+
+      <text x="103" y="430" text-anchor="middle" class="svg-dim">ρ_Hg = 13600 kg/m³</text>
+      <text x="103" y="444" text-anchor="middle" class="svg-dim">g = 9.807 m/s²</text>
+
+      <!-- Tube from cuff to capsule -->
+      <path d="M193 200 Q200 200 205 200" stroke="#4a6070" stroke-width="4" fill="none"/>
+      <text x="196" y="215" class="svg-dim" text-anchor="middle">tube</text>
+
+      <!-- ─────────────────────────────────────────────
+           ② ANEROID CAPSULE
+      ───────────────────────────────────────────── -->
+      <!-- Capsule body (corrugated) -->
+      <g transform="translate(310,190)">
+        <!-- Outer envelope -->
+        <ellipse cx="0" cy="0" rx="58" ry="42" fill="#c8b88a" stroke="#8a6d2e" stroke-width="2"/>
+        <!-- Corrugations (concentric arcs) -->
+        <ellipse cx="0" cy="0" rx="48" ry="34" fill="none" stroke="#8a6d2e" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <ellipse cx="0" cy="0" rx="38" ry="26" fill="none" stroke="#8a6d2e" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <ellipse cx="0" cy="0" rx="28" ry="18" fill="none" stroke="#8a6d2e" stroke-width="0.8" stroke-dasharray="3,2"/>
+        <ellipse cx="0" cy="0" rx="17" ry="10" fill="#d4c494" stroke="#8a6d2e" stroke-width="1"/>
+        <!-- Sealed left wall -->
+        <rect x="-62" y="-10" width="8" height="20" fill="url(#hatch)" stroke="#8a6d2e" stroke-width="1"/>
+        <!-- Output pin right -->
+        <line x1="58" y1="0" x2="78" y2="0" stroke="#4a6070" stroke-width="3"/>
+        <circle cx="78" cy="0" r="4" fill="#4a6070"/>
+      </g>
+
+      <!-- Pressure input arrow into capsule -->
+      <line x1="215" y1="190" x2="245" y2="190" stroke="#b94a2c" stroke-width="2" marker-end="url(#arr)"/>
+      <text x="228" y="183" text-anchor="middle" class="svg-dim">P</text>
+
+      <!-- δ deflection arrow -->
+      <line x1="370" y1="175" x2="395" y2="175" stroke="#2c5f8a" stroke-width="1.5" marker-end="url(#arr-blue)" stroke-dasharray="4,2"/>
+      <text x="382" y="168" text-anchor="middle" class="svg-eq" fill="#2c5f8a" font-size="9">δ</text>
+
+      <!-- Equation box -->
+      <rect x="215" y="290" width="186" height="110" rx="2" fill="#f5efe0" stroke="#2c5f8a" stroke-width="1"/>
+      <text x="308" y="308" text-anchor="middle" class="svg-eq" font-weight="600" fill="#2c5f8a">Capsule Deflection</text>
+      <text x="308" y="330" text-anchor="middle" class="svg-eq">δ = P·A_eff / k</text>
+      <line x1="230" y1="340" x2="386" y2="340" stroke="#2c5f8a" stroke-width="0.5"/>
+      <text x="308" y="356" text-anchor="middle" class="svg-dim">A_eff = effective area</text>
+      <text x="308" y="370" text-anchor="middle" class="svg-dim">k = capsule stiffness</text>
+      <text x="308" y="386" text-anchor="middle" class="svg-eq" font-size="9" fill="#4a6070">k = E·t³ / R²(1−ν²) · C</text>
+
+      <!-- Stiffness labels -->
+      <text x="308" y="430" text-anchor="middle" class="svg-dim">E = Young's modulus</text>
+      <text x="308" y="444" text-anchor="middle" class="svg-dim">t = wall thickness</text>
+      <text x="308" y="458" text-anchor="middle" class="svg-dim">ν = Poisson's ratio</text>
+
+      <!-- ─────────────────────────────────────────────
+           ③ LEVER LINKAGE
+      ───────────────────────────────────────────── -->
+      <!-- Pivot point -->
+      <circle cx="460" cy="310" r="6" fill="#8a6d2e" stroke="#4a2e00" stroke-width="1.5"/>
+      <text x="460" y="328" text-anchor="middle" class="svg-dim">pivot (a)</text>
+
+      <!-- Lever arm -->
+      <line x1="390" y1="190" x2="550" y2="310" stroke="#4a6070" stroke-width="3" stroke-linecap="round"/>
+
+      <!-- Dimension: a (short end) -->
+      <line x1="390" y1="195" x2="455" y2="305" stroke="#b94a2c" stroke-width="1" stroke-dasharray="3,2" marker-end="url(#arr)"/>
+      <text x="408" y="255" class="svg-dim" fill="#b94a2c">a</text>
+
+      <!-- Dimension: L₁ (long end) -->
+      <line x1="465" y1="315" x2="545" y2="305" stroke="#2c5f8a" stroke-width="1" stroke-dasharray="3,2"/>
+      <text x="510" y="298" class="svg-dim" fill="#2c5f8a">L₁</text>
+
+      <!-- Output arc Δs -->
+      <path d="M555 310 Q580 250 575 190" stroke="#2c5f8a" stroke-width="1.5" fill="none" stroke-dasharray="4,2" marker-end="url(#arr-blue)"/>
+      <text x="590" y="250" class="svg-eq" fill="#2c5f8a" font-size="9">Δs</text>
+
+      <!-- Equation box -->
+      <rect x="428" y="380" width="185" height="90" rx="2" fill="#f5efe0" stroke="#b94a2c" stroke-width="1"/>
+      <text x="520" y="398" text-anchor="middle" class="svg-eq" font-weight="600" fill="#b94a2c">Lever Amplification</text>
+      <text x="520" y="420" text-anchor="middle" class="svg-eq">Δs = δ · (L₁ / a)</text>
+      <line x1="440" y1="430" x2="600" y2="430" stroke="#b94a2c" stroke-width="0.5"/>
+      <text x="520" y="448" text-anchor="middle" class="svg-dim">M = L₁/a  (mech. advantage)</text>
+      <text x="520" y="462" text-anchor="middle" class="svg-dim">typical M ≈ 5–15×</text>
+
+      <!-- ─────────────────────────────────────────────
+           ④ RACK & PINION
+      ───────────────────────────────────────────── -->
+      <!-- Rack (toothed bar) -->
+      <rect x="645" y="160" width="20" height="130" rx="2" fill="url(#hatch)" stroke="#4a6070" stroke-width="1.5"/>
+      <!-- Rack teeth -->
+      <g fill="#4a6070">
+        <rect x="665" y="168" width="7" height="5" rx="1"/>
+        <rect x="665" y="180" width="7" height="5" rx="1"/>
+        <rect x="665" y="192" width="7" height="5" rx="1"/>
+        <rect x="665" y="204" width="7" height="5" rx="1"/>
+        <rect x="665" y="216" width="7" height="5" rx="1"/>
+        <rect x="665" y="228" width="7" height="5" rx="1"/>
+        <rect x="665" y="240" width="7" height="5" rx="1"/>
+        <rect x="665" y="252" width="7" height="5" rx="1"/>
+        <rect x="665" y="264" width="7" height="5" rx="1"/>
+        <rect x="665" y="276" width="7" height="5" rx="1"/>
+      </g>
+
+      <!-- Pinion gear -->
+      <circle cx="727" cy="225" r="30" fill="#c8b88a" stroke="#8a6d2e" stroke-width="2"/>
+      <circle cx="727" cy="225" r="3" fill="#4a6070"/>
+      <!-- Gear teeth on pinion -->
+      <g fill="none" stroke="#8a6d2e" stroke-width="1.2">
+        <circle cx="727" cy="225" r="36" stroke-dasharray="8,6"/>
+      </g>
+      <!-- Pinion label -->
+      <text x="727" y="222" text-anchor="middle" class="svg-dim" fill="#4a2e00">r_p</text>
+
+      <!-- Radius arrow -->
+      <line x1="727" y1="225" x2="752" y2="205" stroke="#b94a2c" stroke-width="1.2" marker-end="url(#arr)"/>
+      <text x="748" y="198" class="svg-dim" fill="#b94a2c">r_p</text>
+
+      <!-- Rotation arrow -->
+      <path d="M727 187 A38 38 0 0 1 765 225" stroke="#2c5f8a" fill="none" stroke-width="1.5" marker-end="url(#arr-blue)"/>
+      <text x="770" y="200" class="svg-eq" fill="#2c5f8a" font-size="9">Δθ</text>
+
+      <!-- Needle shaft to dial -->
+      <line x1="757" y1="225" x2="830" y2="225" stroke="#4a6070" stroke-width="2" stroke-dasharray="4,2"/>
+
+      <!-- Equation box -->
+      <rect x="640" y="360" width="175" height="100" rx="2" fill="#f5efe0" stroke="#8a6d2e" stroke-width="1"/>
+      <text x="727" y="378" text-anchor="middle" class="svg-eq" font-weight="600" fill="#8a6d2e">Rack → Pinion</text>
+      <text x="727" y="398" text-anchor="middle" class="svg-eq">Δθ = Δs / r_p</text>
+      <line x1="652" y1="408" x2="802" y2="408" stroke="#8a6d2e" stroke-width="0.5"/>
+      <text x="727" y="424" text-anchor="middle" class="svg-dim">Combined:</text>
+      <text x="727" y="440" text-anchor="middle" class="svg-eq" font-size="9">θ = P·A_eff·L₁ / (k·a·r_p)</text>
+
+      <!-- ─────────────────────────────────────────────
+           ⑤ GAUGE DIAL
+      ───────────────────────────────────────────── -->
+      <!-- Dial face -->
+      <circle cx="930" cy="220" r="80" fill="#f0e8d0" stroke="#8a6d2e" stroke-width="3"/>
+      <circle cx="930" cy="220" r="75" fill="none" stroke="#c8b88a" stroke-width="1"/>
+
+      <!-- Tick marks and numbers: 0 to 300 mmHg, 270° sweep (from ~225° to -45°) -->
+      <!-- Major ticks at 0,50,100,150,200,250,300 -->
+      <g transform="translate(930,220)">
+        <!-- Arc scale: 0 mmHg at 225° (bottom-left), 300 mmHg at -45° (bottom-right), 270° sweep -->
+        <!-- Tick at 0 mmHg (225°) -->
+        <g transform="rotate(225)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="52" y="4" text-anchor="middle" class="svg-dim" transform="rotate(-225,52,0)" font-size="9">0</text>
+        </g>
+        <!-- Tick at 50 mmHg (225+45=270°) -->
+        <g transform="rotate(270)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="52" y="4" text-anchor="middle" class="svg-dim" transform="rotate(-270,52,0)" font-size="9">50</text>
+        </g>
+        <!-- Tick at 100 mmHg (315°) -->
+        <g transform="rotate(315)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="52" y="4" text-anchor="middle" class="svg-dim" transform="rotate(-315,52,0)" font-size="9">100</text>
+        </g>
+        <!-- Tick at 150 mmHg (360°/0°) -->
+        <g transform="rotate(0)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="54" y="4" text-anchor="middle" class="svg-dim" transform="rotate(0,54,0)" font-size="9">150</text>
+        </g>
+        <!-- Tick at 200 mmHg (45°) -->
+        <g transform="rotate(45)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="52" y="4" text-anchor="middle" class="svg-dim" transform="rotate(-45,52,0)" font-size="9">200</text>
+        </g>
+        <!-- Tick at 250 mmHg (90°) -->
+        <g transform="rotate(90)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="52" y="4" text-anchor="middle" class="svg-dim" transform="rotate(-90,52,0)" font-size="9">250</text>
+        </g>
+        <!-- Tick at 300 mmHg (135°) -->
+        <g transform="rotate(135)">
+          <line x1="62" y1="0" x2="72" y2="0" stroke="#1a1209" stroke-width="2"/>
+          <text x="52" y="4" text-anchor="middle" class="svg-dim" transform="rotate(-135,52,0)" font-size="9">300</text>
+        </g>
+
+        <!-- Minor ticks every 10 mmHg (9° each) -->
+        <g stroke="#1a1209" stroke-width="0.8">
+          <!-- Between 0-50 (225 to 270°) -->
+          <g transform="rotate(234)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(243)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(252)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(261)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(279)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(288)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(297)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(306)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(324)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(333)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(342)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(351)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(9)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(18)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(27)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(36)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(54)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(63)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(72)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(81)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(99)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(108)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(117)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+          <g transform="rotate(126)"><line x1="66" y1="0" x2="72" y2="0"/></g>
+        </g>
+
+        <!-- Scale arc -->
+        <path d="M-72,0 A72,72 0 1,1 50.91,50.91" fill="none" stroke="#c8b88a" stroke-width="1" stroke-dasharray="2,1" transform="rotate(225)"/>
+
+        <!-- Needle pointing to ~120 mmHg systolic: 225 + (120/300)*270 = 225+108 = 333° -->
+        <g transform="rotate(333)">
+          <polygon points="0,-4 0,4 58,0" fill="#c0392b" opacity="0.9"/>
+          <polygon points="0,-3 0,3 -18,0" fill="#4a2e00" opacity="0.7"/>
+        </g>
+
+        <!-- Centre cap -->
+        <circle cx="0" cy="0" r="5" fill="#4a6070"/>
+
+        <!-- mmHg label -->
+        <text x="0" y="45" text-anchor="middle" class="svg-dim" font-size="10" fill="#4a2e00">mmHg</text>
+      </g>
+
+      <!-- Systolic/diastolic annotation -->
+      <line x1="965" y1="155" x2="1010" y2="120" stroke="#c0392b" stroke-width="1" stroke-dasharray="3,2"/>
+      <rect x="870" y="100" width="160" height="50" rx="2" fill="#f5efe0" stroke="#c0392b" stroke-width="1"/>
+      <text x="950" y="118" text-anchor="middle" class="svg-eq" fill="#c0392b" font-weight="600">Systolic: 120 mmHg</text>
+      <text x="950" y="133" text-anchor="middle" class="svg-dim">needle shown at reading</text>
+      <text x="950" y="146" text-anchor="middle" class="svg-dim">θ = 0.9° per mmHg</text>
+
+      <!-- Gauge equation box -->
+      <rect x="845" y="340" width="175" height="120" rx="2" fill="#f5efe0" stroke="#c0392b" stroke-width="1"/>
+      <text x="932" y="358" text-anchor="middle" class="svg-eq" font-weight="600" fill="#c0392b">Dial Calibration</text>
+      <text x="932" y="376" text-anchor="middle" class="svg-eq">θ(P) = (3π/2)·P/P_max</text>
+      <line x1="857" y1="385" x2="1007" y2="385" stroke="#c0392b" stroke-width="0.5"/>
+      <text x="932" y="401" text-anchor="middle" class="svg-dim">span = 270° = 3π/2 rad</text>
+      <text x="932" y="415" text-anchor="middle" class="svg-dim">P_max = 300 mmHg</text>
+      <text x="932" y="429" text-anchor="middle" class="svg-dim">S = π/200 rad/mmHg</text>
+      <text x="932" y="443" text-anchor="middle" class="svg-dim">  ≈ 0.9°/mmHg</text>
+
+      <!-- ─── MASTER SENSITIVITY EQUATION ─── -->
+      <rect x="215" y="530" width="610" height="60" rx="3" fill="#1a1209" stroke="#8a6d2e" stroke-width="1.5"/>
+      <text x="520" y="552" text-anchor="middle" class="svg-title" font-size="13" fill="#f5efe0">Master Transfer Function</text>
+      <text x="520" y="578" text-anchor="middle" class="svg-eq" font-size="11" fill="#c8b88a">θ = P · A_eff · L₁ / (k · a · r_p)     →     S = A_eff · L₁ / (k · a · r_p)  [rad/Pa]</text>
+
+      <!-- Flow arrows between zones -->
+      <line x1="196" y1="190" x2="210" y2="190" stroke="#b94a2c" stroke-width="2" marker-end="url(#arr)"/>
+      <line x1="393" y1="190" x2="425" y2="190" stroke="#2c5f8a" stroke-width="2" marker-end="url(#arr-blue)"/>
+      <line x1="622" y1="190" x2="640" y2="190" stroke="#4a6070" stroke-width="2" marker-end="url(#arr-steel)"/>
+      <line x1="757" y1="225" x2="845" y2="225" stroke="#4a6070" stroke-width="2" marker-end="url(#arr-steel)"/>
+    </svg>
+  </div>
+
+  <!-- ═══════════════ EQUATION CARDS ═══════════════ -->
+  <div class="equations-grid">
+    <div class="eq-card">
+      <div class="label">① Pressure Unit Conversion</div>
+      <div class="eq">
+        1 mmHg = ρ<sub>Hg</sub> · g · h<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = 13600 × 9.807 × 0.001<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; = <strong>133.3 Pa</strong>
+      </div>
+      <div class="note">P in Pa = P [mmHg] × 133.3</div>
+    </div>
+
+    <div class="eq-card">
+      <div class="label">② Capsule Deflection</div>
+      <div class="eq">
+        δ = P · A<sub>eff</sub> / k<br><br>
+        k = E·t³ / R²(1−ν²) · C<sub>geom</sub>
+      </div>
+      <div class="note">δ [m] : axial tip displacement of capsule</div>
+    </div>
+
+    <div class="eq-card">
+      <div class="label">③ Lever Amplification</div>
+      <div class="eq">
+        Δs = δ · (L<sub>1</sub> / a)<br><br>
+        M = L<sub>1</sub> / a &nbsp;&nbsp; [mechanical advantage]
+      </div>
+      <div class="note">Typical M ≈ 5–15×; converts µm deflection → mm arc</div>
+    </div>
+
+    <div class="eq-card">
+      <div class="label">④ Rack &amp; Pinion Conversion</div>
+      <div class="eq">
+        Δθ = Δs / r<sub>p</sub><br><br>
+        Δθ = δ · L<sub>1</sub> / (a · r<sub>p</sub>)
+      </div>
+      <div class="note">r_p = pinion pitch radius [m]</div>
+    </div>
+
+    <div class="eq-card">
+      <div class="label">⑤ Dial Calibration</div>
+      <div class="eq">
+        θ(P) = (3π/2) · P / P<sub>max</sub><br><br>
+        S<sub>dial</sub> = π/200 ≈ 0.9° / mmHg
+      </div>
+      <div class="note">270° span over 300 mmHg full scale</div>
+    </div>
+
+    <div class="eq-card">
+      <div class="label">Full Sensitivity</div>
+      <div class="eq">
+        S = A<sub>eff</sub> · L<sub>1</sub> / (k · a · r<sub>p</sub>)<br><br>
+        MAP ≈ P<sub>d</sub> + ⅓(P<sub>s</sub> − P<sub>d</sub>)
+      </div>
+      <div class="note">S [rad/Pa] — engineered to match dial span</div>
+    </div>
+  </div>
+
+  <!-- ═══════════════ TRANSFER CHAIN ═══════════════ -->
+  <div class="chain">
+    <div class="chain-step">P<br><span class="unit">mmHg</span></div>
+    <div class="chain-arrow"><span>×133.3</span><span class="op">→</span></div>
+    <div class="chain-step">P<br><span class="unit">Pa</span></div>
+    <div class="chain-arrow"><span>÷ k</span><span class="op">→</span></div>
+    <div class="chain-step">δ<br><span class="unit">m</span></div>
+    <div class="chain-arrow"><span>× L₁/a</span><span class="op">→</span></div>
+    <div class="chain-step">Δs<br><span class="unit">m arc</span></div>
+    <div class="chain-arrow"><span>÷ r_p</span><span class="op">→</span></div>
+    <div class="chain-step">Δθ<br><span class="unit">rad</span></div>
+    <div class="chain-arrow"><span>×180/π</span><span class="op">→</span></div>
+    <div class="chain-step">θ<br><span class="unit">degrees</span></div>
+  </div>
+
+  <footer>
+    Aneroid Sphygmomanometer · Mechanical Signal Chain · P → δ → Δs → Δθ
+  </footer>
+
+</div>
+</body>
+</html>
