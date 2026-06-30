@@ -1,0 +1,75 @@
+ /* Reset default margins and padding */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            height: 100vh;
+            /* 1. Background: St Mark Lion in Venice */
+            background-image: url("st-mark.jpeg");
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+            position: relative;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+
+        /* Semi-transparent overlay to ensure background doesn't wash out foreground content */
+        .background-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.25);
+            z-index: 1;
+        }
+
+        /* Header layout using Flexbox to push images to the far corners */
+        .header-images {
+            position: relative;
+            z-index: 2;
+            width: 100%;
+            padding: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        /* Styling for the corner images */
+        .corner-img {
+            max-width: 180px; /* Adjust size as desired */
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            transition: transform 0.3s ease;
+        }
+
+        .corner-img:hover {
+            transform: scale(1.05);
+        }
+
+        /* Center content area */
+        .main-container {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            margin-top: 50px;
+            padding: 0 20px;
+        }
+
+        .main-container h1 {
+            font-size: 3rem;
+            text-shadow: 2px 2px 8px rgba(0, 0, 0, 0.7);
+            margin-bottom: 20px;
+        }
+
+        .main-container p {
+            font-size: 1.2rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.7);
+        }
