@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Non-Invasive Blood Pressure — Oscillometric Transduction</title>
+<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400;0,500;0,700;1,400&family=JetBrains+Mono:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink: #1a1410;
+    --paper: #f5f0e8;
+    --paper2: #ede7d9;
+    --sepia: #8b6914;
+    --red: #b92c20;
+    --blue: #1a3a6b;
+    --green: #1d6b35;
+    --rule: #c8b88a;
+    --faint: #e2d9c5;
+  }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'EB Garamond', serif;
+    font-size: 16px;
+    line-height: 1.6;
+    padding: 3rem 2rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  /* ── Header ── */
+  header {
+    text-align: center;
+    border-top: 3px double var(--ink);
+    border-bottom: 3px double var(--ink);
+    padding: 1.4rem 0;
+    margin-bottom: 3rem;
+    position: relative;
+  }
+  header::before, header::after {
+    content: '✦';
+    position: absolute;
+    top: 50%; transform: translateY(-50%);
+    font-size: 1.2rem;
+    color: var(--sepia);
+  }
+  header::before { left: 1rem; }
+  header::after  { right: 1rem; }
+  h1 {
+    font-size: 2rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    margin-bottom: 0.3rem;
+  }
+  h1 span { color: var(--sepia); font-style: italic; }
+  .subtitle {
+    font-size: 1rem;
+    font-style: italic;
+    color: #666;
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 300;
+  }
+
+  /* ── Section titles ── */
+  h2 {
+    font-size: 1.1rem;
+    font-variant: small-caps;
+    letter-spacing: 0.15em;
+    border-bottom: 1px solid var(--rule);
+    padding-bottom: 0.3rem;
+    margin-bottom: 1.2rem;
+    color: var(--blue);
+  }
+
+  /* ── Grid layout ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 2rem; margin-bottom: 2.5rem; }
+  .card {
+    background: var(--paper2);
+    border: 1px solid var(--rule);
+    border-radius: 2px;
+    padding: 1.4rem;
+  }
+
+  /* ── SVG diagrams ── */
+  svg { width: 100%; display: block; }
+  .math {
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 0.82rem;
+    background: var(--faint);
+    border-left: 3px solid var(--sepia);
+    padding: 0.6rem 0.9rem;
+    margin: 0.8rem 0;
+    line-height: 1.8;
+    white-space: pre;
+  }
+  .eq-title {
+    font-size: 0.75rem;
+    font-variant: small-caps;
+    letter-spacing: 0.1em;
+    color: var(--sepia);
+    margin-bottom: 0.15rem;
+  }
+  p { margin-bottom: 0.8rem; font-size: 0.97rem; }
+  ul { padding-left: 1.4rem; font-size: 0.94rem; }
+  ul li { margin-bottom: 0.4rem; }
+
+  /* ── Oscillogram animation ── */
+  #osc-svg { height: 220px; }
+  .osc-line { fill: none; stroke: var(--red); stroke-width: 2; }
+  .cuff-bar {
+    animation: pressureDrop 6s ease-in-out infinite;
+  }
+  @keyframes pressureDrop {
+    0%   { transform: scaleX(1);   opacity: 1; }
+    100% { transform: scaleX(0.05); opacity: 0.6; }
+  }
+
+  /* ── Artery cross-section ── */
+  #artery-svg { height: 180px; }
+
+  /* ── Legend dots ── */
+  .legend {
+    display: flex; gap: 1.2rem; flex-wrap: wrap;
+    font-size: 0.82rem; margin-top: 0.6rem;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  .legend span { display: flex; align-items: center; gap: 0.35rem; }
+  .dot { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+
+  /* ── Phase annotations ── */
+  .phase-label {
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    fill: var(--ink);
+  }
+  .axis-label {
+    font-size: 0.72rem;
+    font-family: 'JetBrains Mono', monospace;
+    fill: #555;
+  }
+
+  /* ── Full-width sections ── */
+  .full { margin-bottom: 2.5rem; }
+
+  footer {
+    text-align: center;
+    font-size: 0.78rem;
+    color: #888;
+    font-style: italic;
+    border-top: 1px solid var(--rule);
+    padding-top: 1rem;
+    margin-top: 2rem;
+  }
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) {
+    .grid-2, .grid-3 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Non-Invasive Blood Pressure<br><span>Oscillometric Transduction</span></h1>
+  <div class="subtitle">Physics · Signal Processing · Mathematical Foundations</div>
+</header>
+
+<!-- ══════════════════════════════════════════
+     SECTION 1 — PRINCIPLE OVERVIEW
+═══════════════════════════════════════════ -->
+<div class="full card">
+  <h2>I. Physical Principle</h2>
+  <p>
+    A pneumatic cuff is inflated around the upper arm above systolic pressure, occluding the brachial artery. As the cuff deflates, arterial pressure pulses transmit <em>mechanical oscillations</em> into the cuff air column. A piezoelectric or capacitive pressure transducer converts these pressure fluctuations into a voltage signal — the <strong>oscillometric envelope</strong>. Systolic (SBP), mean arterial pressure (MAP), and diastolic (DBP) are inferred from the envelope's shape.
+  </p>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 2 — ARTERY CROSS-SECTION + PHYSICS
+═══════════════════════════════════════════ -->
+<div class="grid-2">
+
+  <!-- Left: Artery states -->
+  <div class="card">
+    <h2>II. Arterial States During Deflation</h2>
+    <svg id="artery-svg" viewBox="0 0 420 180">
+
+      <!-- State labels -->
+      <text x="70"  y="18" text-anchor="middle" class="phase-label" font-weight="500" fill="#b92c20">P_cuff > SBP</text>
+      <text x="210" y="18" text-anchor="middle" class="phase-label" font-weight="500" fill="#8b6914">P_cuff ≈ MAP</text>
+      <text x="350" y="18" text-anchor="middle" class="phase-label" font-weight="500" fill="#1d6b35">P_cuff &lt; DBP</text>
+
+      <!-- ── State 1: Fully occluded ── -->
+      <!-- Cuff -->
+      <rect x="20" y="30" width="100" height="110" rx="8" fill="#ddd" stroke="#aaa" stroke-width="1"/>
+      <text x="70" y="150" text-anchor="middle" class="axis-label">Fully Occluded</text>
+      <!-- artery - collapsed -->
+      <ellipse cx="70" cy="85" rx="28" ry="8" fill="#c0392b" stroke="#7b241c" stroke-width="1.5"/>
+      <text x="70" y="89" text-anchor="middle" fill="white" font-size="8" font-family="JetBrains Mono,monospace">collapsed</text>
+      <!-- no flow arrow -->
+      <line x1="105" y1="85" x2="118" y2="85" stroke="#999" stroke-width="1.5" stroke-dasharray="3,2"/>
+      <text x="108" y="80" font-size="7" fill="#999" font-family="JetBrains Mono,monospace">no flow</text>
+      <!-- small oscillation indicator -->
+      <path d="M 30 120 Q 40 115 50 120 Q 60 125 70 120 Q 80 115 90 120 Q 100 125 110 120"
+            fill="none" stroke="#c0392b" stroke-width="1" opacity="0.4"/>
+
+      <!-- ── State 2: Partially open ── -->
+      <rect x="160" y="30" width="100" height="110" rx="8" fill="#f5e6c0" stroke="#c8a040" stroke-width="1"/>
+      <text x="210" y="150" text-anchor="middle" class="axis-label">Partial Patency</text>
+      <!-- artery - partially open, pulsing -->
+      <ellipse cx="210" cy="85" rx="28" ry="20" fill="#c0392b" stroke="#7b241c" stroke-width="1.5"/>
+      <ellipse cx="210" cy="85" rx="18" ry="12" fill="#e8a090"/>
+      <!-- large oscillations -->
+      <path d="M 168 120 Q 178 108 188 120 Q 198 132 208 120 Q 218 108 228 132 Q 238 150 248 120"
+            fill="none" stroke="#c0392b" stroke-width="2"/>
+      <text x="210" y="89" text-anchor="middle" fill="#7b241c" font-size="7" font-family="JetBrains Mono,monospace">max oscillations</text>
+
+      <!-- ── State 3: Fully open ── -->
+      <rect x="300" y="30" width="100" height="110" rx="8" fill="#d5f0dc" stroke="#5a9a60" stroke-width="1"/>
+      <text x="350" y="150" text-anchor="middle" class="axis-label">Fully Patent</text>
+      <!-- artery - open -->
+      <ellipse cx="350" cy="85" rx="28" ry="26" fill="#c0392b" stroke="#7b241c" stroke-width="1.5"/>
+      <ellipse cx="350" cy="85" rx="20" ry="18" fill="#e8a090"/>
+      <!-- small oscillations (damped) -->
+      <path d="M 308 120 Q 318 117 328 120 Q 338 123 348 120 Q 358 117 368 120 Q 378 123 388 120"
+            fill="none" stroke="#c0392b" stroke-width="1.5"/>
+      <!-- flow arrows -->
+      <line x1="336" y1="85" x2="364" y2="85" stroke="#1d6b35" stroke-width="1.5" marker-end="url(#arr)"/>
+
+      <defs>
+        <marker id="arr" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto">
+          <path d="M0,0 L6,3 L0,6 Z" fill="#1d6b35"/>
+        </marker>
+      </defs>
+    </svg>
+
+    <p style="font-size:0.88rem; margin-top:0.5rem;">
+      The cuff transmits <em>external pressure P<sub>ext</sub></em> circumferentially. The artery wall acts as a pressure-transmitting membrane — only when <em>P<sub>art</sub> ≈ P<sub>ext</sub></em> does wall tension vanish and the vessel become maximally compliant, yielding peak oscillation amplitude.
+    </p>
+  </div>
+
+  <!-- Right: Physics equations -->
+  <div class="card">
+    <h2>III. Wall Mechanics — Laplace &amp; Compliance</h2>
+
+    <div class="eq-title">Law of Laplace (cylindrical vessel)</div>
+    <div class="math">T = ΔP · r / h
+
+  T  = circumferential wall tension [N/m]
+  ΔP = transmural pressure = P_art − P_cuff
+  r  = arterial radius
+  h  = wall thickness</div>
+
+    <p style="font-size:0.88rem;">When P<sub>cuff</sub> → P<sub>art</sub>, transmural pressure ΔP → 0, so T → 0. The artery is at <strong>zero-tension</strong>: a tiny pressure change causes a <em>large</em> volume change — maximum compliance.</p>
+
+    <div class="eq-title">Arterial Compliance</div>
+    <div class="math">C(P) = dV/dP
+
+  C is maximal at ΔP = 0  →  peak oscillations
+  C falls for ΔP >> 0 or ΔP << 0</div>
+
+    <div class="eq-title">Pressure Transmission into Cuff</div>
+    <div class="math">ΔP_cuff = (A_art / A_cuff) · C(P) · dP_art/dt
+
+  A_art   = artery cross-sectional area
+  A_cuff  = cuff bladder area
+  dP_art/dt = rate of pressure change per beat</div>
+
+    <p style="font-size:0.88rem;">The transducer (piezoelectric or MEMS capacitive) converts ΔP<sub>cuff</sub> to voltage via the piezoelectric equation: <code>V = g · σ · t</code>, where g is the piezoelectric voltage constant, σ stress, t thickness.</p>
+  </div>
+
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 3 — OSCILLOMETRIC ENVELOPE
+═══════════════════════════════════════════ -->
+<div class="full card">
+  <h2>IV. Oscillometric Envelope &amp; Signal Morphology</h2>
+  <canvas id="oscCanvas" height="220" style="width:100%; display:block;"></canvas>
+  <div class="legend" style="margin-top:0.8rem;">
+    <span><span class="dot" style="background:#8b6914"></span>Cuff pressure (slow ramp)</span>
+    <span><span class="dot" style="background:#b92c20"></span>Oscillation amplitude envelope</span>
+    <span><span class="dot" style="background:#1a3a6b"></span>Individual oscillations</span>
+  </div>
+
+  <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:1.2rem; margin-top:1.2rem;">
+    <div>
+      <div class="eq-title">Systolic (SBP)</div>
+      <div class="math" style="font-size:0.75rem;">A(P_cuff = SBP) =
+  k_SBP · A_max
+  k_SBP ≈ 0.45–0.55</div>
+      <p style="font-size:0.83rem;">SBP identified when rising envelope reaches ~50% of peak amplitude.</p>
+    </div>
+    <div>
+      <div class="eq-title">Mean Arterial Pressure</div>
+      <div class="math" style="font-size:0.75rem;">MAP = P_cuff at
+  A_max (peak
+  oscillation)</div>
+      <p style="font-size:0.83rem;">MAP is directly read as the cuff pressure at maximum oscillation — the most robust measurement.</p>
+    </div>
+    <div>
+      <div class="eq-title">Diastolic (DBP)</div>
+      <div class="math" style="font-size:0.75rem;">A(P_cuff = DBP) =
+  k_DBP · A_max
+  k_DBP ≈ 0.70–0.85</div>
+      <p style="font-size:0.83rem;">DBP identified when falling envelope drops to ~70–85% of peak. k values are device-specific, validated against auscultation.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 4 — SIGNAL CHAIN
+═══════════════════════════════════════════ -->
+<div class="grid-2">
+  <div class="card">
+    <h2>V. Transducer Signal Chain</h2>
+    <svg viewBox="0 0 380 200" style="height:200px;">
+      <defs>
+        <marker id="arrowB" markerWidth="7" markerHeight="7" refX="6" refY="3.5" orient="auto">
+          <path d="M0,0 L7,3.5 L0,7 Z" fill="#1a3a6b"/>
+        </marker>
+      </defs>
+
+      <!-- Boxes -->
+      <rect x="5"   y="80" width="70" height="40" rx="4" fill="#dce8f5" stroke="#1a3a6b" stroke-width="1.2"/>
+      <text x="40"  y="97"  text-anchor="middle" font-size="8" font-family="JetBrains Mono,monospace" fill="#1a3a6b">Cuff Bladder</text>
+      <text x="40"  y="109" text-anchor="middle" font-size="7" font-family="JetBrains Mono,monospace" fill="#555">ΔP → air</text>
+
+      <rect x="100" y="80" width="70" height="40" rx="4" fill="#dce8f5" stroke="#1a3a6b" stroke-width="1.2"/>
+      <text x="135" y="97"  text-anchor="middle" font-size="8" font-family="JetBrains Mono,monospace" fill="#1a3a6b">Piezo / MEMS</text>
+      <text x="135" y="109" text-anchor="middle" font-size="7" font-family="JetBrains Mono,monospace" fill="#555">P → V</text>
+
+      <rect x="195" y="80" width="70" height="40" rx="4" fill="#dce8f5" stroke="#1a3a6b" stroke-width="1.2"/>
+      <text x="230" y="97"  text-anchor="middle" font-size="8" font-family="JetBrains Mono,monospace" fill="#1a3a6b">Band-pass</text>
+      <text x="230" y="109" text-anchor="middle" font-size="7" font-family="JetBrains Mono,monospace" fill="#555">0.5–10 Hz</text>
+
+      <rect x="290" y="80" width="70" height="40" rx="4" fill="#d5f0dc" stroke="#1d6b35" stroke-width="1.2"/>
+      <text x="325" y="97"  text-anchor="middle" font-size="8" font-family="JetBrains Mono,monospace" fill="#1d6b35">ADC + DSP</text>
+      <text x="325" y="109" text-anchor="middle" font-size="7" font-family="JetBrains Mono,monospace" fill="#555">envelope</text>
+
+      <!-- Arrows -->
+      <line x1="75"  y1="100" x2="98"  y2="100" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#arrowB)"/>
+      <line x1="170" y1="100" x2="193" y2="100" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#arrowB)"/>
+      <line x1="265" y1="100" x2="288" y2="100" stroke="#1a3a6b" stroke-width="1.5" marker-end="url(#arrowB)"/>
+
+      <!-- Labels below arrows -->
+      <text x="87"  y="94" text-anchor="middle" font-size="7" font-family="JetBrains Mono,monospace" fill="#888">voltage</text>
+      <text x="182" y="94" text-anchor="middle" font-size="7" font-family="JetBrains Mono,monospace" fill="#888">filter</text>
+      <text x="277" y="94" text-anchor="middle" font-size="7" font-family="JetBrains Mono,monospace" fill="#888">digital</text>
+
+      <!-- Frequency annotation -->
+      <text x="190" y="155" text-anchor="middle" font-size="8.5" font-family="JetBrains Mono,monospace" fill="#555">
+        Heart rate: 0.8–3 Hz · Artefact: &gt;10 Hz
+      </text>
+      <text x="190" y="170" text-anchor="middle" font-size="8.5" font-family="JetBrains Mono,monospace" fill="#555">
+        Cuff pressure drift: &lt;0.05 Hz (removed by HPF)
+      </text>
+
+      <!-- Title -->
+      <text x="190" y="40" text-anchor="middle" font-size="9" font-family="JetBrains Mono,monospace" fill="#1a3a6b" font-weight="500">SIGNAL PROCESSING PIPELINE</text>
+    </svg>
+
+    <div class="math" style="font-size:0.76rem;">Piezo:    V = g₃₃ · σ · t
+MEMS:     C = ε₀A / d(P)
+          V_out = V_bias · ΔC/C₀
+
+Envelope: A(n) = max|x(k)| for
+          k ∈ [n-W, n+W]   (window W)</div>
+  </div>
+
+  <div class="card">
+    <h2>VI. MAP Estimation &amp; Error Sources</h2>
+
+    <div class="eq-title">Mean Arterial Pressure (exact)</div>
+    <div class="math">MAP = DBP + ¹⁄₃(SBP − DBP)
+    = DBP + ¹⁄₃ · PP</div>
+
+    <div class="eq-title">Oscillometric MAP (direct)</div>
+    <div class="math">MAP_osc = P_cuff(A_max)
+
+  Most accurate NIBP reading.
+  Error typically &lt; 5 mmHg vs invasive.</div>
+
+    <div class="eq-title">Pulse Pressure</div>
+    <div class="math">PP = SBP − DBP
+
+  Normal: 40 mmHg
+  Wide PP → aortic regurgitation
+  Narrow PP → cardiac tamponade</div>
+
+    <p style="font-size:0.86rem; margin-top:0.6rem;"><strong>Error sources:</strong></p>
+    <ul style="font-size:0.85rem;">
+      <li>Cuff sizing (under/over-sized — Laplace geometry error)</li>
+      <li>Arrhythmia — irregular envelope; algorithm fails</li>
+      <li>Motion artefact (≥ 2 Hz overlap with cardiac signal)</li>
+      <li>Arterial stiffness — shifts compliance curve, skews k-ratios</li>
+      <li>Improper arm position (hydrostatic offset: ≈ 0.77 mmHg/cm)</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     SECTION 5 — HYDROSTATIC CORRECTION
+═══════════════════════════════════════════ -->
+<div class="full card">
+  <h2>VII. Hydrostatic Pressure Correction</h2>
+  <p>
+    Blood pressure varies with the vertical height of the measurement site relative to the heart — a direct consequence of fluid statics. Any NIBP measurement must be corrected if the cuff is not at heart level.
+  </p>
+  <div class="math">P_corrected = P_measured + ρ · g · Δh
+
+  ρ    = blood density ≈ 1060 kg/m³
+  g    = 9.81 m/s²
+  Δh   = height of cuff below (+) or above (−) heart level
+
+  Numerically: ΔP ≈ 0.77 mmHg per cm of height difference
+  
+  Example: cuff 5 cm above heart →
+           P_corrected = P_measured − 3.85 mmHg</div>
+  <p style="font-size:0.88rem;">
+    Clinical guideline: cuff should be at the level of the right atrium (midsternal, ~4th intercostal space). For wrist devices, raise the wrist to heart level before measurement.
+  </p>
+</div>
+
+<footer>
+  Non-Invasive Blood Pressure · Oscillometric Method · Physics Reference Diagram
+</footer>
+
+<script>
+// ── Draw oscillometric envelope on canvas ──
+const canvas = document.getElementById('oscCanvas');
+const ctx = canvas.getContext('2d');
+
+function resize() {
+  canvas.width = canvas.offsetWidth * devicePixelRatio;
+  canvas.height = 220 * devicePixelRatio;
+  ctx.scale(devicePixelRatio, devicePixelRatio);
+  draw();
+}
+
+function draw() {
+  const W = canvas.offsetWidth;
+  const H = 220;
+  ctx.clearRect(0, 0, W, H);
+
+  const pad = { l: 60, r: 30, t: 30, b: 55 };
+  const plotW = W - pad.l - pad.r;
+  const plotH = H - pad.t - pad.b;
+
+  // ── Axes ──
+  ctx.strokeStyle = '#bbb';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  ctx.moveTo(pad.l, pad.t);
+  ctx.lineTo(pad.l, pad.t + plotH);
+  ctx.lineTo(pad.l + plotW, pad.t + plotH);
+  ctx.stroke();
+
+  // Axis labels
+  ctx.fillStyle = '#555';
+  ctx.font = '11px JetBrains Mono, monospace';
+  ctx.textAlign = 'center';
+  ctx.fillText('Cuff Pressure (mmHg)', pad.l + plotW / 2, H - 8);
+  ctx.save();
+  ctx.translate(14, pad.t + plotH / 2);
+  ctx.rotate(-Math.PI / 2);
+  ctx.fillText('Amplitude', 0, 0);
+  ctx.restore();
+
+  // Pressure axis ticks (180 → 40 mmHg, left to right = deflation)
+  const sbp = 120, map = 97, dbp = 78;
+  const minP = 40, maxP = 185;
+  const ticks = [180, 160, 140, 120, 100, 80, 60, 40];
+  ticks.forEach(p => {
+    const x = pad.l + ((maxP - p) / (maxP - minP)) * plotW;
+    ctx.beginPath();
+    ctx.moveTo(x, pad.t + plotH);
+    ctx.lineTo(x, pad.t + plotH + 5);
+    ctx.strokeStyle = '#aaa';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+    ctx.fillStyle = '#666';
+    ctx.font = '9px JetBrains Mono, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(p, x, pad.t + plotH + 16);
+  });
+
+  // Helper: pressure → x
+  function px(p) { return pad.l + ((maxP - p) / (maxP - minP)) * plotW; }
+
+  // ── Gaussian envelope centred at MAP ──
+  function envAmp(p) {
+    const sigma = 28;
+    return Math.exp(-0.5 * Math.pow((p - map) / sigma, 2));
+  }
+
+  // Draw envelope fill
+  ctx.beginPath();
+  for (let i = 0; i <= 300; i++) {
+    const p = maxP - i * (maxP - minP) / 300;
+    const a = envAmp(p);
+    const x = px(p);
+    const y = pad.t + plotH * 0.85 - a * plotH * 0.72;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.strokeStyle = 'rgba(185,44,32,0.25)';
+  ctx.lineWidth = 1;
+  ctx.stroke();
+
+  // Mirror for lower envelope
+  ctx.beginPath();
+  for (let i = 0; i <= 300; i++) {
+    const p = maxP - i * (maxP - minP) / 300;
+    const a = envAmp(p);
+    const x = px(p);
+    const y = pad.t + plotH * 0.85 + a * plotH * 0.72;
+    if (i === 0) ctx.moveTo(x, y);
+    else ctx.lineTo(x, y);
+  }
+  ctx.strokeStyle = 'rgba(185,44,32,0.25)';
+  ctx.stroke();
+
+  // ── Individual oscillations (sinusoidal bursts along x-axis) ──
+  ctx.beginPath();
+  const nSteps = 800;
+  let first = true;
+  for (let i = 0; i <= nSteps; i++) {
+    const p = maxP - i * (maxP - minP) / nSteps;
+    const a = envAmp(p);
+    const osc = a * plotH * 0.7 * Math.sin(i * 0.32);
+    const x = px(p);
+    const y = pad.t + plotH * 0.85 + osc;
+    if (first) { ctx.moveTo(x, y); first = false; }
+    else ctx.lineTo(x, y);
+  }
+  ctx.strokeStyle = '#1a3a6b';
+  ctx.lineWidth = 1.4;
+  ctx.stroke();
+
+  // ── Envelope curves (upper & lower) ──
+  ['upper', 'lower'].forEach(side => {
+    ctx.beginPath();
+    for (let i = 0; i <= 300; i++) {
+      const p = maxP - i * (maxP - minP) / 300;
+      const a = envAmp(p);
+      const x = px(p);
+      const sign = side === 'upper' ? -1 : 1;
+      const y = pad.t + plotH * 0.85 + sign * a * plotH * 0.7;
+      if (i === 0) ctx.moveTo(x, y);
+      else ctx.lineTo(x, y);
+    }
+    ctx.strokeStyle = '#b92c20';
+    ctx.lineWidth = 2;
+    ctx.setLineDash([5, 3]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+  });
+
+  // ── Vertical markers ──
+  function drawVline(p, col, label, yLabel) {
+    const x = px(p);
+    ctx.beginPath();
+    ctx.moveTo(x, pad.t);
+    ctx.lineTo(x, pad.t + plotH);
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 1.5;
+    ctx.setLineDash([4, 3]);
+    ctx.stroke();
+    ctx.setLineDash([]);
+    // Label above
+    ctx.fillStyle = col;
+    ctx.font = 'bold 10px JetBrains Mono, monospace';
+    ctx.textAlign = 'center';
+    ctx.fillText(label, x, yLabel);
+    ctx.font = '9px JetBrains Mono, monospace';
+    ctx.fillText(p + ' mmHg', x, yLabel + 11);
+  }
+
+  drawVline(sbp, '#1d6b35',  'SBP', pad.t - 4);
+  drawVline(map, '#8b6914',  'MAP', pad.t - 4);
+  drawVline(dbp, '#b92c20', 'DBP', pad.t - 4);
+
+  // k-ratio annotations
+  function kLine(p, k, col) {
+    const x = px(p);
+    const a = envAmp(map) * plotH * 0.7;  // peak amp
+    const kAmp = k * a;
+    const y1 = pad.t + plotH * 0.85 - kAmp;
+    const y2 = pad.t + plotH * 0.85 + kAmp;
+    ctx.beginPath();
+    ctx.moveTo(x - 8, y1); ctx.lineTo(x + 8, y1);
+    ctx.moveTo(x - 8, y2); ctx.lineTo(x + 8, y2);
+    ctx.strokeStyle = col;
+    ctx.lineWidth = 1.5;
+    ctx.stroke();
+    ctx.fillStyle = col;
+    ctx.font = '8.5px JetBrains Mono, monospace';
+    ctx.textAlign = 'left';
+    ctx.fillText('k≈' + k, x + 10, y1 + 4);
+  }
+  kLine(sbp, 0.50, '#1d6b35');
+  kLine(dbp, 0.76, '#b92c20');
+
+  // Peak marker at MAP
+  const mapX = px(map);
+  const mapY = pad.t + plotH * 0.85 - envAmp(map) * plotH * 0.7;
+  ctx.beginPath();
+  ctx.arc(mapX, mapY, 5, 0, Math.PI * 2);
+  ctx.fillStyle = '#8b6914';
+  ctx.fill();
+  ctx.font = '8.5px JetBrains Mono, monospace';
+  ctx.fillStyle = '#8b6914';
+  ctx.textAlign = 'left';
+  ctx.fillText('A_max', mapX + 7, mapY - 2);
+}
+
+window.addEventListener('resize', resize);
+resize();
+</script>
+
+</body>
+</html>
