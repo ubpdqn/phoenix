@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blank Template</title>
+  <style>
+    /* Document Setup & Modern Box Model */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    /* Core Typography & Base Styling */
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      line-height: 1.6;
+      color: #333333;
+      background-color: #fcfcfc;
+      padding: 2rem 1rem;
+    }
+
+    /* Center Page Container */
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 2.5rem;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    }
+
+    /* Simple Layout Headings */
+    h1, h2, h3 {
+      color: #111111;
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    p {
+      margin-bottom: 1.5rem;
+    }
+
+    /* Utility Button Component */
+    .btn {
+      display: inline-block;
+      background-color: #0066cc;
+      color: #ffffff;
+      padding: 0.75rem 1.5rem;
+      text-decoration: none;
+      border-radius: 4px;
+      font-weight: 500;
+      transition: background 0.2s ease;
+    }
+
+    .btn:hover {
+      background-color: #0052a3;
+    }
+  </style>
+   <script async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+  <main class="container">
+    <h1>Australian Deal or No Deal</h1>
+   <p>
+    I used Claude to create a simulation of Australian Deal or No Deal for different strategies.
+   </p> 
+<style>
+  /* This creates a white border around the whole table */
+  table {
+    border: 5px solid white; 
+    border-collapse: collapse; /* Merges the inner lines */
+    width: 100%;
+  }
+
+  /* This styles the text, background, and inner lines */
+  th, td {
+    border: 1px solid white;
+    padding: 10px;
+    text-align: left;
+    color: white;
+    background-color: #333333; /* Dark background to make white text pop */
+  }
+</style>
+
+<table>
+  <tr>
+    <th style="font-weight: bold; background-color: coral;">Strategy Name</th>
+    <th style="font-weight: bold; background-color: coral;">Details</th>
+  </tr>
+  <tr>
+    <td style="color: red;" >Rational / Expected Value -Maximising Strategy </td>
+    <td> Accept if offer >= current expected value .
+   A risk-neutral agent should be indifferent at EV; we accept
+   at or above it to prefer certainty when the offer is fair .</td>
+  </tr>
+  <tr>
+    <td style="color:orange"> Risk-Averse Strategy</td>
+    <td> Accept if offer >= threshold fraction of EV .
+   averseFraction less than 1 means the player will happily take less
+   than EV to lock in a sure thing . Models loss aversion .</td>
+  </tr>
+  <tr>
+    <td style="color:yellow">  Risk-Seeking / Greedy Strategy</td>
+    <td> Accept only if offer >= seekerFraction * EV .
+   seekerFraction > 1 means the player demands a premium above
+   EV - they believe luck is on their side .</td>
+  </tr>
+  
+  <tr>
+    <td style="color:green">Prospect-Theory Strategy</td>
+    <td>
+ Inspired by Kahneman-Tversky: people overweight small
+   probabilities of large wins . The player values the remaining
+   pool by a probability-weighted utility:
+
+       $$U = \Sigma w(p_1) * v(x_1)$$
+
+   where $$v(x) = x^\alpha$$ (diminishing sensitivity, $$\alpha < 1$$)
+         $$w(p) = p^\gamma / (p^\gamma + (1-p)^\gamma)^(1/\gamma) $$ (probability weighting)
+
+   Accept if offer utility >= weighted utility of the pool .
+
+    </td>
+  </tr>
+<tr>
+  <td style="color:blue">
+    Minimax-Regret Strategy
+  </td>
+  <td>
+    The player minimises maximum regret . Regret from dealing:
+       Regret_deal = max(remaining) - offer
+   Regret from not dealing is the expected miss:
+       Regret_nodeal ~|offer - EV|
+   Accept if regret of dealing $$\leq$$ regret of not dealing .
+  </td>
+</tr>
+<tr>
+  <td style="color:purple">
+    Never Deal Strategy
+  </td>
+  <td>
+    Player always plays to the end; outcome = player's own case .
+   Baseline for comparison .
+  </td>
+</tr>
+<tr>
+  <td>
+    Always Deal Strategy
+  </td>
+  <td>
+    Player accepts the very first offer (round 1) .
+   Lower bound benchmark .
+  </td>
+</tr>
+</table>
+<section>
+<style>
+  figure {
+  border: thin silver solid;
+  display: flex;
+  flex-flow: column;
+  padding: 5px;
+  max-width: 620px;
+  margin: auto;
+}
+
+img {
+  max-width: 600px;
+  max-height: 400px;
+}
+
+figcaption {
+  background-color: #222222;
+  color: white;
+  font: italic smaller sans-serif;
+  padding: 3px;
+  text-align: center;
+}
+</style>
+<figure>
+  <img
+    src="dod01.png"
+    alt="" />
+  <figcaption>Table of outcomes for strategies</figcaption>
+</figure>
+</section>
+<section>
+  <img
+    src="dod02.png"
+    alt="" />
+  <figcaption>Smooth Historgrams of outcomes for strategies</figcaption>
+</figure>
+</section>
+<section>
+  <img
+    src="dod03.png"
+    alt="" />
+  <figcaption>Bar chart of mean outcomes for strategies</figcaption>
+</figure>
+</section>
+<section>
+  <img
+    src="dod04.png"
+    alt="" />
+  <figcaption>An example of ration strategy versus banker.</figcaption>
+</figure>
+</section>
+<section>
+  <img
+    src="dod05.png"
+    alt="" />
+  <figcaption>Banker Response with Round</figcaption>
+</figure>
+</section>
+
+  </main>
+
+</body>
+</html>
